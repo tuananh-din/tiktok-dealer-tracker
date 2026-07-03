@@ -1,0 +1,9 @@
+# Danh sách kênh TikTok đại lý — mỗi dòng 1 kênh.
+# Dùng @handle hoặc URL đầy đủ. Dòng bắt đầu bằng # sẽ bị bỏ qua.
+#
+# Ví dụ:
+# @dai_ly_mot
+# @dai_ly_hai
+# https://www.tiktok.com/@dai_ly_ba
+#
+# >>> Thêm kênh thật của bạn bên dưới <<<

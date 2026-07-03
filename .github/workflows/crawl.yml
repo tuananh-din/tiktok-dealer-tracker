@@ -1,0 +1,71 @@
+name: crawl-tiktok-qrevo
+
+# Runs on GitHub's servers — your Mac does NOT need to be on.
+on:
+  schedule:
+    # 17:00 Asia/Saigon (UTC+7) == 10:00 UTC, every day.
+    - cron: '0 10 * * *'
+    # --- Near-realtime option: uncomment to also run every 30 minutes ---
+    # (GitHub schedules can be delayed several minutes under load.)
+    # - cron: '*/30 * * * *'
+  workflow_dispatch: {}   # manual "Run workflow" button in the Actions tab
+
+# Needed only if OUTPUTS includes "excel" (commits the xlsx/csv back).
+permissions:
+  contents: write
+
+concurrency:
+  group: crawl-tiktok
+  cancel-in-progress: false
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Write Google service-account credentials (from secret)
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: printf '%s' "$GOOGLE_CREDENTIALS" > google-credentials.json
+
+      - name: Write TikTok cookies (optional secret, helps avoid IP blocks)
+        env:
+          TIKTOK_COOKIES: ${{ secrets.TIKTOK_COOKIES }}
+        run: |
+          if [ -n "$TIKTOK_COOKIES" ]; then
+            printf '%s' "$TIKTOK_COOKIES" > cookies.txt
+            echo "cookies.txt written"
+          else
+            echo "no TIKTOK_COOKIES secret — running without cookies"
+          fi
+
+      - name: Run crawler
+        env:
+          GSHEET_ID: ${{ secrets.GSHEET_ID }}
+        run: python crawl.py
+
+      - name: Commit results back (only if Excel output is enabled)
+        run: |
+          rm -f google-credentials.json cookies.txt   # never commit secrets
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/ 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No local file changes to commit (Google Sheets output is live)."
+          else
+            git commit -m "update qrevo videos ($(date -u +'%Y-%m-%d %H:%M') UTC)"
+            git pull --rebase --autostash origin ${{ github.ref_name }} || true
+            git push
+          fi

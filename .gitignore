@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets — NEVER commit these
+google-credentials.json
+cookies.txt
+sheet-id.txt
+
+# Logs
+*.log
+launchd.out.log
+launchd.err.log
