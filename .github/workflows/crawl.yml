@@ -3,8 +3,9 @@ name: crawl-tiktok-qrevo
 # Runs on GitHub's servers — your Mac does NOT need to be on.
 on:
   schedule:
-    # 17:00 Asia/Saigon (UTC+7) == 10:00 UTC, every day.
-    - cron: '0 10 * * *'
+    # 17:15 Asia/Saigon (UTC+7) == 10:15 UTC, every day.
+    # Off the top-of-hour (:00) on purpose — GitHub heavily delays/drops :00 schedules.
+    - cron: '15 10 * * *'
     # --- Near-realtime option: uncomment to also run every 30 minutes ---
     # (GitHub schedules can be delayed several minutes under load.)
     # - cron: '*/30 * * * *'
