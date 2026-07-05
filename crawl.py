@@ -142,6 +142,21 @@ def main() -> None:
             config.EXCEL_FILE, config.SUMMARY_CSV, config.SUMMARY_XLSX)
         log(f"Summary rebuilt: {n} dealers")
 
+    # Always (re)build the public HTML report from the FULL current dataset so
+    # the GitHub Pages page (index.html) reflects the latest numbers every run.
+    # Wrapped so a report glitch never aborts the crawl/commit.
+    if "excel" in config.OUTPUTS and config.CSV_FILE.exists():
+        try:
+            from src import report_html_builder
+            st = report_html_builder.build(
+                config.CSV_FILE,
+                [config.BASE_DIR / "index.html",
+                 config.BASE_DIR / "bao-cao-qrevo2pro-tiktok.html"],
+                snapshot=f"{datetime.now():%d/%m/%Y}")
+            log(f"Public report rebuilt: index.html ({st['tot_v'] if st else 0} videos)")
+        except Exception as e:  # noqa: BLE001 - report is non-critical
+            log(f"  ! report build failed: {e}")
+
     log(f"Done | {len(new_matches)} new matching videos")
 
 
