@@ -134,6 +134,14 @@ def main() -> None:
 
     if new_matches:
         write_outputs(new_matches)
+
+    # Always (re)build the per-dealer summary from the full report.
+    if "excel" in config.OUTPUTS and config.EXCEL_FILE.exists():
+        from src import summary_writer
+        n = summary_writer.write_summary(
+            config.EXCEL_FILE, config.SUMMARY_CSV, config.SUMMARY_XLSX)
+        log(f"Summary rebuilt: {n} dealers")
+
     log(f"Done | {len(new_matches)} new matching videos")
 
 

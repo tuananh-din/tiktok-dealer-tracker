@@ -72,6 +72,9 @@ REQUEST_SLEEP_SECONDS = 1.5   # polite delay between channels to avoid rate limi
 OUTPUT_DIR = BASE_DIR / "output"
 EXCEL_FILE = OUTPUT_DIR / "qrevo-videos.xlsx"
 CSV_FILE = OUTPUT_DIR / "qrevo-videos.csv"
+# Per-dealer aggregate: video count, total views/likes/comments, engagement %.
+SUMMARY_CSV = OUTPUT_DIR / "qrevo-summary.csv"
+SUMMARY_XLSX = OUTPUT_DIR / "qrevo-summary.xlsx"
 
 LOG_FILE = BASE_DIR / "run.log"
 
