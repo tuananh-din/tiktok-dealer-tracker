@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo Chương trình TikTok Đại lý — Qrevo 2 Pro</title>
+<style>
+  :root{
+    --navy:#0e1a2b; --ink:#1e293b; --muted:#64748b; --eye:#8a94a6;
+    --line:#e2e8f0; --graybg:#f5f7fa; --track:#e6ecf3; --white:#ffffff;
+    --blue:#2f6fed; --blue-bg:#e9f0fe; --blue-bd:#cadcfb;
+    --green:#1f9d5f; --green-bg:#e7f6ed; --green-bd:#c2e7d0;
+    --amber:#d9871a; --amber-bg:#fdf3e0; --amber-bd:#f2ddb2;
+    --red:#e04d4d; --red-bg:#fdecec; --red-bd:#f6cccc;
+    --purple:#7c5cded9;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9edf2;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:14.5px;line-height:1.55}
+  .wrap{max-width:1080px;margin:26px auto;background:var(--white);border-radius:18px;
+    box-shadow:0 12px 44px rgba(15,25,45,.13);padding:34px 40px 40px;overflow:hidden}
+  @media(max-width:720px){.wrap{padding:22px 18px;margin:12px}}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  h2.sec{font-size:19px;font-weight:800;margin:34px 0 4px;color:var(--navy);display:flex;align-items:center;gap:9px}
+  h2.sec .bar{width:5px;height:20px;background:var(--blue);border-radius:3px}
+  .sec-note{color:var(--muted);font-size:12.5px;margin:0 0 16px}
+
+  /* header */
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:1.3px;color:var(--eye);margin-bottom:12px}
+  .title-band{background:var(--navy);border-radius:13px;padding:22px 26px}
+  .title-band h1{margin:0;color:#fff;font-size:26px;font-weight:800;line-height:1.25}
+  .title-band .sub{color:#a9b8cc;font-size:13.5px;margin-top:8px}
+
+  /* KPI strip */
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:18px}
+  @media(max-width:820px){.kpis{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:460px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{border:1px solid var(--line);background:var(--graybg);border-radius:12px;padding:13px 14px}
+  .kpi.b{background:var(--blue-bg);border-color:var(--blue-bd)}
+  .kpi.g{background:var(--green-bg);border-color:var(--green-bd)}
+  .kpi.a{background:var(--amber-bg);border-color:var(--amber-bd)}
+  .kpi .k{font-size:10px;font-weight:800;letter-spacing:.4px;color:var(--muted);text-transform:uppercase}
+  .kpi .v{font-size:23px;font-weight:800;margin-top:5px;color:var(--ink)}
+  .kpi.b .v{color:var(--blue)} .kpi.g .v{color:var(--green)} .kpi.a .v{color:var(--amber)}
+  .kpi .d{font-size:10.5px;color:var(--muted);margin-top:3px}
+
+  /* finding cards */
+  .findings{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  @media(max-width:760px){.findings{grid-template-columns:1fr}}
+  .find{border-radius:12px;padding:15px 17px;border:1px solid var(--line)}
+  .find.b{background:var(--blue-bg);border-color:var(--blue-bd)}
+  .find.a{background:var(--amber-bg);border-color:var(--amber-bd)}
+  .find.r{background:var(--red-bg);border-color:var(--red-bd)}
+  .find .h{font-size:13px;font-weight:800;margin-bottom:5px}
+  .find.b .h{color:var(--blue)} .find.a .h{color:#b56d0a} .find.r .h{color:#c23b3b}
+  .find p{margin:0;font-size:12.6px;color:var(--ink);line-height:1.5}
+  .find b{font-weight:800}
+
+  /* bars generic */
+  .barlist{margin-top:6px}
+  .bar-row{display:grid;grid-template-columns:150px 1fr 96px;align-items:center;gap:12px;margin:9px 0;font-size:13px}
+  @media(max-width:600px){.bar-row{grid-template-columns:110px 1fr 84px}}
+  .bar-row .nm{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+  .bar-track{background:var(--track);border-radius:20px;height:20px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#2f6fed,#5b8bf5);display:flex;align-items:center}
+  .bar-fill.g{background:linear-gradient(90deg,#1f9d5f,#43c383)}
+  .bar-fill.a{background:linear-gradient(90deg,#d9871a,#efab4b)}
+  .bar-row .vv{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);font-size:12.5px}
+  .bar-row .vv small{color:var(--muted);font-weight:600}
+
+  /* table */
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:12.8px;min-width:640px}
+  th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+  th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+  thead th{background:var(--navy);color:#dbe6f5;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;position:sticky;top:0}
+  tbody tr:nth-child(even){background:#fafbfd}
+  tbody tr:hover{background:var(--blue-bg)}
+  td .tag{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}
+  .tag.reach{background:var(--blue-bg);color:var(--blue)}
+  .tag.vol{background:#eee7fb;color:#6b46c8}
+  .tag.eng{background:var(--green-bg);color:var(--green)}
+  .tag.weak{background:var(--red-bg);color:var(--red)}
+  td.eg-hi{color:var(--green);font-weight:800}
+  td.eg-lo{color:var(--red);font-weight:700}
+  .rk{color:var(--muted);font-weight:700}
+
+  /* three leaders */
+  .leaders{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.leaders{grid-template-columns:1fr}}
+  .lead{border:1px solid var(--line);border-radius:13px;padding:16px 17px;background:var(--white)}
+  .lead .cap{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+  .lead .who{font-size:16px;font-weight:800;margin:5px 0 2px;color:var(--navy)}
+  .lead .big{font-size:26px;font-weight:800;margin:6px 0 2px}
+  .lead.blue .big{color:var(--blue)} .lead.purple .big{color:#6b46c8} .lead.green .big{color:var(--green)}
+  .lead p{margin:6px 0 0;font-size:12px;color:var(--muted);line-height:1.5}
+  .lead p b{color:var(--ink)}
+
+  /* callouts */
+  .callouts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:760px){.callouts{grid-template-columns:repeat(2,1fr)}}
+  .call{border:1px solid var(--red-bd);background:var(--red-bg);border-radius:12px;padding:14px 15px;text-align:center}
+  .call .n{font-size:26px;font-weight:800;color:var(--red)}
+  .call .t{font-size:11.5px;color:#9a4a4a;margin-top:4px;font-weight:600}
+
+  /* video list */
+  .vlist{margin-top:4px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .vrow{display:grid;grid-template-columns:44px 1fr 130px;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid var(--line);font-size:13px}
+  .vrow:last-child{border-bottom:none}
+  .vrow:nth-child(even){background:#fafbfd}
+  .vrow .vn{font-size:17px;font-weight:800;color:var(--eye);text-align:center}
+  .vrow .vc{overflow:hidden}
+  .vrow .vc .cap{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vrow .vc .ch{color:var(--muted);font-size:11.5px}
+  .vrow .vm{text-align:right;font-size:12px;color:var(--muted)}
+  .vrow .vm b{color:var(--ink);font-size:14px}
+
+  /* recos */
+  .recos{display:grid;gap:11px;margin-top:4px}
+  .reco{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:start;
+    border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--graybg)}
+  .reco .pri{font-size:11px;font-weight:800;padding:5px 0;text-align:center;border-radius:8px;color:#fff}
+  .reco .pri.p1{background:var(--red)} .reco .pri.p2{background:var(--amber)} .reco .pri.p3{background:var(--blue)}
+  .reco .rc h4{margin:0 0 4px;font-size:14px;font-weight:800;color:var(--navy)}
+  .reco .rc p{margin:0;font-size:12.7px;color:var(--ink);line-height:1.5}
+  .reco .rc b{font-weight:800}
+
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px;line-height:1.6}
+  .pill{display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue);
+    font-size:11.5px;font-weight:700;padding:5px 13px;border-radius:20px;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">QREVO 2 PRO&nbsp;&nbsp;·&nbsp;&nbsp;CHƯƠNG TRÌNH TIKTOK ĐẠI LÝ&nbsp;&nbsp;·&nbsp;&nbsp;BÁO CÁO PHÂN TÍCH</div>
+  <div class="title-band">
+    <h1>Chương trình kích hoạt 23 đại lý &amp; 93 video trong 4 tuần —<br>đang tăng tốc mạnh nhưng độ phủ dồn vào số ít</h1>
+    <div class="sub">Theo dõi tự động video đại lý nhắc từ khoá “qrevo 2 pro” · Kỳ dữ liệu 08/06 – 05/07/2026 · cập nhật hằng ngày qua GitHub Actions</div>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="kpis">
+    <div class="kpi b"><div class="k">Đại lý</div><div class="v">23</div><div class="d">kênh active</div></div>
+    <div class="kpi g"><div class="k">Video</div><div class="v">93</div><div class="d">qrevo 2 pro</div></div>
+    <div class="kpi a"><div class="k">Lượt xem</div><div class="v">17.499</div><div class="d">TB 188 · trung vị 130</div></div>
+    <div class="kpi"><div class="k">Lượt thích</div><div class="v">468</div><div class="d">tym</div></div>
+    <div class="kpi"><div class="k">Bình luận</div><div class="v">124</div><div class="d">comment</div></div>
+    <div class="kpi"><div class="k">Tương tác</div><div class="v">3,38%</div><div class="d">(tym+cmt)/view</div></div>
+  </div>
+
+  <!-- KEY FINDINGS -->
+  <h2 class="sec"><span class="bar"></span>Điểm nhấn</h2>
+  <p class="sec-note">3 điều quan trọng nhất rút ra từ dữ liệu kỳ này.</p>
+  <div class="findings">
+    <div class="find b">
+      <div class="h">📈 Đang tăng tốc mạnh</div>
+      <p>Số video theo tuần: 5 → 7 → 13 → <b>68</b>. Riêng tuần cuối (29/6–5/7) chiếm <b>73% toàn bộ nội dung</b> — chương trình vừa bùng nổ, cần giữ đà.</p>
+    </div>
+    <div class="find a">
+      <div class="h">🎯 Độ phủ dồn vào số ít</div>
+      <p>Top 3 đại lý tạo 37% video nhưng hút <b>60% lượt xem</b>; riêng <b>mivietnam chiếm 34% view</b>. Rủi ro phụ thuộc — cần nhân rộng ra nhóm giữa.</p>
+    </div>
+    <div class="find r">
+      <div class="h">⚠️ Chất lượng còn mỏng</div>
+      <p><b>30%</b> video &lt;100 view, <b>72%</b> video không có bình luận, <b>10/23</b> đại lý đăng ≤2 video rồi dừng. Kích hoạt được nhưng chưa bền.</p>
+    </div>
+  </div>
+
+  <!-- MOMENTUM -->
+  <h2 class="sec"><span class="bar"></span>Đà tăng trưởng theo tuần</h2>
+  <p class="sec-note">Số video đăng mỗi tuần (theo ngày đăng). Tuần cuối bùng nổ gấp ~5× tuần trước đó.</p>
+  <div class="barlist">
+    <div class="bar-row"><span class="nm">T1 · 08–14/06</span><span class="bar-track"><span class="bar-fill g" style="width:7.4%"></span></span><span class="vv">5 <small>video</small></span></div>
+    <div class="bar-row"><span class="nm">T2 · 15–21/06</span><span class="bar-track"><span class="bar-fill g" style="width:10.3%"></span></span><span class="vv">7 <small>video</small></span></div>
+    <div class="bar-row"><span class="nm">T3 · 22–28/06</span><span class="bar-track"><span class="bar-fill g" style="width:19.1%"></span></span><span class="vv">13 <small>video</small></span></div>
+    <div class="bar-row"><span class="nm">T4 · 29/06–05/07</span><span class="bar-track"><span class="bar-fill g" style="width:100%"></span></span><span class="vv">68 <small>video</small></span></div>
+  </div>
+
+  <!-- CONCENTRATION -->
+  <h2 class="sec"><span class="bar"></span>Mức độ tập trung (Pareto)</h2>
+  <p class="sec-note">Ai đang gánh lượt xem cho cả chương trình.</p>
+  <div class="barlist">
+    <div class="bar-row"><span class="nm">mivietnam</span><span class="bar-track"><span class="bar-fill" style="width:34%"></span></span><span class="vv">34% <small>view</small></span></div>
+    <div class="bar-row"><span class="nm">Top 3 đại lý</span><span class="bar-track"><span class="bar-fill" style="width:60%"></span></span><span class="vv">60% <small>view</small></span></div>
+    <div class="bar-row"><span class="nm">20 đại lý còn lại</span><span class="bar-track"><span class="bar-fill a" style="width:40%"></span></span><span class="vv">40% <small>view</small></span></div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <h2 class="sec"><span class="bar"></span>Bảng xếp hạng 23 đại lý</h2>
+  <p class="sec-note">Sắp theo lượt xem. <b>TB view</b> = view / video (thước đo chất lượng nội dung). Eng% với đại lý ít view dễ nhiễu.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Đại lý</th><th>Video</th><th>View</th><th>TB view</th><th>Tym</th><th>Cmt</th><th>Eng%</th></tr></thead>
+      <tbody>
+        <tr><td class="rk">1</td><td>mivietnam_chuyengiarobot<span class="tag reach">REACH</span></td><td>9</td><td>5.953</td><td><b>661</b></td><td>105</td><td>3</td><td>1,8</td></tr>
+        <tr><td class="rk">2</td><td>minhchautestthat</td><td>11</td><td>2.666</td><td>242</td><td>48</td><td>9</td><td>2,1</td></tr>
+        <tr><td class="rk">3</td><td>kimanh_1202<span class="tag vol">VOLUME</span></td><td>14</td><td>1.930</td><td>138</td><td>98</td><td>21</td><td class="eg-hi">6,2</td></tr>
+        <tr><td class="rk">4</td><td>phanthulan715</td><td>7</td><td>731</td><td>104</td><td>23</td><td>0</td><td>3,1</td></tr>
+        <tr><td class="rk">5</td><td>thurobot88</td><td>9</td><td>684</td><td>76</td><td>18</td><td>0</td><td>2,6</td></tr>
+        <tr><td class="rk">6</td><td>.hng0863</td><td>6</td><td>678</td><td>113</td><td>6</td><td>1</td><td class="eg-lo">1,0</td></tr>
+        <tr><td class="rk">7</td><td>quyrobot</td><td>3</td><td>629</td><td>210</td><td>26</td><td>22</td><td class="eg-hi">7,6</td></tr>
+        <tr><td class="rk">8</td><td>tigerbot.smarthome</td><td>4</td><td>488</td><td>122</td><td>19</td><td>6</td><td class="eg-hi">5,1</td></tr>
+        <tr><td class="rk">9</td><td>thuyduonggiadung</td><td>3</td><td>466</td><td>155</td><td>17</td><td>1</td><td>3,9</td></tr>
+        <tr><td class="rk">10</td><td>nc.nh.qu.robot<span class="tag eng">ENGAGE</span></td><td>4</td><td>432</td><td>108</td><td>43</td><td>50</td><td class="eg-hi">21,5</td></tr>
+        <tr><td class="rk">11</td><td>giangchismarthome</td><td>3</td><td>389</td><td>130</td><td>8</td><td>2</td><td>2,6</td></tr>
+        <tr><td class="rk">12</td><td>caothienphat.official</td><td>1</td><td>358</td><td>358</td><td>7</td><td>2</td><td>2,5</td></tr>
+        <tr><td class="rk">13</td><td>thietbithongminh8</td><td>1</td><td>347</td><td>347</td><td>3</td><td>2</td><td class="eg-lo">1,4</td></tr>
+        <tr><td class="rk">14</td><td>longrobot_284</td><td>2</td><td>332</td><td>166</td><td>6</td><td>1</td><td>2,1</td></tr>
+        <tr><td class="rk">15</td><td>roborock.krng.n</td><td>3</td><td>271</td><td>90</td><td>11</td><td>4</td><td class="eg-hi">5,5</td></tr>
+        <tr><td class="rk">16</td><td>mi360vn</td><td>1</td><td>241</td><td>241</td><td>3</td><td>0</td><td class="eg-lo">1,2</td></tr>
+        <tr><td class="rk">17</td><td>tn.robot76</td><td>2</td><td>229</td><td>114</td><td>6</td><td>0</td><td>2,6</td></tr>
+        <tr><td class="rk">18</td><td>3t.smart.robot.tn</td><td>2</td><td>208</td><td>104</td><td>1</td><td>0</td><td class="eg-lo">0,5</td></tr>
+        <tr><td class="rk">19</td><td>thietbibepan</td><td>1</td><td>177</td><td>177</td><td>5</td><td>0</td><td>2,8</td></tr>
+        <tr><td class="rk">20</td><td>hiephong.techhome</td><td>1</td><td>131</td><td>131</td><td>5</td><td>0</td><td>3,8</td></tr>
+        <tr><td class="rk">21</td><td>tm.anh.kitchen.qu</td><td>1</td><td>130</td><td>130</td><td>4</td><td>0</td><td>3,1</td></tr>
+        <tr><td class="rk">22</td><td>roborockthanhhoa<span class="tag weak">YẾU</span></td><td>3</td><td>23</td><td>8</td><td>6</td><td>0</td><td>26,1*</td></tr>
+        <tr><td class="rk">23</td><td>homecaredigital<span class="tag weak">YẾU</span></td><td>2</td><td>6</td><td>3</td><td>0</td><td>0</td><td class="eg-lo">0,0</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sec-note" style="margin-top:8px">* roborockthanhhoa: eng% cao do nền view rất nhỏ (23 view) — không đại diện. homecaredigital gần như “chết” (6 view/2 video).</p>
+
+  <!-- THREE LEADERS -->
+  <h2 class="sec"><span class="bar"></span>Ba nhà vô địch — ba thế mạnh khác nhau</h2>
+  <p class="sec-note">Không có “đại lý tốt nhất” tuyệt đối — mỗi kênh mạnh một trục. Học từ cả ba.</p>
+  <div class="leaders">
+    <div class="lead blue">
+      <div class="cap">📢 Độ phủ (Reach)</div>
+      <div class="who">mivietnam_chuyengiarobot</div>
+      <div class="big">661</div>
+      <div class="cap" style="letter-spacing:0;text-transform:none;color:var(--muted)">view / video · gấp 3,5× TB</div>
+      <p><b>Nội dung chuẩn nhất.</b> 9 video hút 34% tổng view & giữ cả 8 video hot. Nhưng eng thấp (1,8%) — kiểu “phát sóng”, ít tương tác.</p>
+    </div>
+    <div class="lead purple">
+      <div class="cap">🔁 Sản lượng (Volume)</div>
+      <div class="who">kimanh_1202</div>
+      <div class="big">14</div>
+      <div class="cap" style="letter-spacing:0;text-transform:none;color:var(--muted)">video · nhiều nhất kỳ</div>
+      <p><b>Chăm nhất & eng tốt (6,2%).</b> Nhưng TB chỉ 138 view — số lượng đang vượt chất lượng. Cần nâng chất từng video.</p>
+    </div>
+    <div class="lead green">
+      <div class="cap">❤️ Tương tác (Engage)</div>
+      <div class="who">nc.nh.qu.robot</div>
+      <div class="big">21,5%</div>
+      <div class="cap" style="letter-spacing:0;text-transform:none;color:var(--muted)">43 tym + 50 cmt / 432 view</div>
+      <p><b>Cộng đồng “chạm” nhất.</b> Chỉ 4 video nhưng khách bình luận nhiều — nội dung tạo hội thoại. Mời chia sẻ công thức.</p>
+    </div>
+  </div>
+
+  <!-- CONTENT THEMES -->
+  <h2 class="sec"><span class="bar"></span>Nội dung đại lý đang nói gì?</h2>
+  <p class="sec-note">% video có nhắc chủ đề trong caption (1 video có thể thuộc nhiều chủ đề).</p>
+  <div class="barlist">
+    <div class="bar-row"><span class="nm">Lau/hút/vệ sinh</span><span class="bar-track"><span class="bar-fill" style="width:89%"></span></span><span class="vv">89% <small>· 83</small></span></div>
+    <div class="bar-row"><span class="nm">Công nghệ/tính năng</span><span class="bar-track"><span class="bar-fill" style="width:40%"></span></span><span class="vv">40% <small>· 37</small></span></div>
+    <div class="bar-row"><span class="nm">Giá/khuyến mãi</span><span class="bar-track"><span class="bar-fill a" style="width:11%"></span></span><span class="vv">11% <small>· 10</small></span></div>
+    <div class="bar-row"><span class="nm">Review/trải nghiệm</span><span class="bar-track"><span class="bar-fill a" style="width:11%"></span></span><span class="vv">11% <small>· 10</small></span></div>
+    <div class="bar-row"><span class="nm">Lắp đặt/giao hàng</span><span class="bar-track"><span class="bar-fill a" style="width:3%"></span></span><span class="vv">3% <small>· 3</small></span></div>
+    <div class="bar-row"><span class="nm">So sánh sản phẩm</span><span class="bar-track"><span class="bar-fill a" style="width:2%"></span></span><span class="vv">2% <small>· 2</small></span></div>
+  </div>
+  <div class="find a" style="margin-top:14px">
+    <div class="h">🔎 Khoảng trống nội dung</div>
+    <p>Nội dung nghiêng hẳn về <b>chức năng sản phẩm (89%)</b> nhưng rất thiếu tầng chốt sale: chỉ <b>11% nhắc giá/khuyến mãi</b>, <b>2% so sánh</b>. Đại lý đang “giới thiệu” tốt nhưng chưa “bán”. Bổ sung CTA + giá + so sánh để chuyển view → khách.</p>
+  </div>
+
+  <!-- QUALITY FLAGS -->
+  <h2 class="sec"><span class="bar"></span>Cảnh báo chất lượng</h2>
+  <p class="sec-note">Những con số cần chú ý để chương trình đi vào chiều sâu.</p>
+  <div class="callouts">
+    <div class="call"><div class="n">30%</div><div class="t">video &lt;100 view<br>(28/93)</div></div>
+    <div class="call"><div class="n">72%</div><div class="t">video 0 bình luận<br>(67/93)</div></div>
+    <div class="call"><div class="n">10/23</div><div class="t">đại lý đăng ≤2 video<br>rồi dừng</div></div>
+    <div class="call"><div class="n">130</div><div class="t">view trung vị<br>(&lt; TB 188 → lệch top)</div></div>
+  </div>
+
+  <!-- TOP VIDEOS -->
+  <h2 class="sec"><span class="bar"></span>Top 8 video hot nhất kỳ</h2>
+  <p class="sec-note">Cả 8 đều thuộc <b>mivietnam_chuyengiarobot</b> — bằng chứng rõ nhất về khoảng cách chất lượng nội dung. Bấm để xem video.</p>
+  <div class="vlist">
+    <div class="vrow"><div class="vn">1</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7650455428572269845" target="_blank">Unboxing Qrevo 2 Pro — “giá mở bán ở cuối video”</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>1.300</b> view<br>24 tym · 1 cmt</div></div>
+    <div class="vrow"><div class="vn">2</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7655642248226360596" target="_blank">Giao tận nơi, lắp tận nhà, hướng dẫn dùng kỹ</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>1.016</b> view<br>13 tym · 0 cmt</div></div>
+    <div class="vrow"><div class="vn">3</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7652320691718458645" target="_blank">“Đại náo hang ổ yêu tinh bụi bẩn”</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>700</b> view<br>10 tym · 0 cmt</div></div>
+    <div class="vrow"><div class="vn">4</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7651946126672891157" target="_blank">Lao Công 4.0 — Công nghệ tự bảo vệ</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>607</b> view<br>12 tym · 0 cmt</div></div>
+    <div class="vrow"><div class="vn">5</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7651569549661244692" target="_blank">Vì sao thiết kế Qrevo 2 Pro thân thiện</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>590</b> view<br>10 tym · 0 cmt</div></div>
+    <div class="vrow"><div class="vn">6</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7657127217037659412" target="_blank">Robot Jutsu nhưng là Qrevo 2 Pro (transition)</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>545</b> view<br>18 tym · 2 cmt</div></div>
+    <div class="vrow"><div class="vn">7</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7652678926065470741" target="_blank">Có cải tiến mới ở Qrevo 2 Pro</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>485</b> view<br>6 tym · 0 cmt</div></div>
+    <div class="vrow"><div class="vn">8</div><div class="vc"><div class="cap"><a href="https://www.tiktok.com/@mivietnam_chuyengiarobot/video/7650832972261625109" target="_blank">Hiểu lầm phổ biến về lông &amp; bụi trong nhà</a></div><div class="ch">mivietnam_chuyengiarobot</div></div><div class="vm"><b>463</b> view<br>6 tym · 0 cmt</div></div>
+  </div>
+
+  <!-- RECOMMENDATIONS -->
+  <h2 class="sec"><span class="bar"></span>Đề xuất hành động (ưu tiên)</h2>
+  <p class="sec-note">Sắp theo tác động × độ dễ triển khai.</p>
+  <div class="recos">
+    <div class="reco"><div class="pri p1">P1</div><div class="rc"><h4>Bóc “công thức mivietnam” thành brief mẫu cho toàn hệ thống</h4><p>Kênh này giữ cả 8 video hot với 661 view/video. Chuẩn hoá format thắng: <b>unboxing + “giá ở cuối video” + kịch bản kể chuyện bụi bẩn</b> → gửi mẫu kịch bản + hashtag cho 22 đại lý còn lại. Đây là đòn bẩy nhanh & rẻ nhất.</p></div></div>
+    <div class="reco"><div class="pri p1">P1</div><div class="rc"><h4>Bổ sung tầng nội dung “chốt sale”</h4><p>Chỉ 11% video nhắc giá, 2% so sánh. Yêu cầu mỗi đại lý có <b>tối thiểu 1 video giá/khuyến mãi + 1 video so sánh</b> mỗi tháng, kèm <b>CTA + hotline/link đại lý</b> rõ trong caption để biến view thành lead.</p></div></div>
+    <div class="reco"><div class="pri p2">P2</div><div class="rc"><h4>Kích hoạt lại nhóm đại lý “đăng rồi dừng”</h4><p>10/23 đại lý mới đăng ≤2 video; 30% video &lt;100 view. Đặt <b>KPI tối thiểu 4 video/tháng</b>, cơ chế <b>thưởng theo view/tương tác</b>, và nhắc riêng các kênh gần như “chết” (homecaredigital, roborockthanhhoa).</p></div></div>
+    <div class="reco"><div class="pri p2">P2</div><div class="rc"><h4>Nhân rộng cách tạo tương tác của nc.nh.qu.robot</h4><p>Đạt 21,5% eng khi 72% video toàn hệ thống có 0 bình luận. Mời chia sẻ cách đặt câu hỏi/CTA khơi hội thoại; áp dụng cho cả các kênh reach cao nhưng eng thấp (mivietnam 1,8%).</p></div></div>
+    <div class="reco"><div class="pri p3">P3</div><div class="rc"><h4>Giữ đà tuần cuối &amp; theo dõi giữ nhịp</h4><p>Tuần cuối bùng nổ 68 video (73% kỳ). Theo dõi <b>tuần kế tiếp có giữ nhịp không</b> hay chỉ là đợt phát động. Báo cáo này cập nhật hằng ngày — dùng để phát hiện sớm nếu tụt.</p></div></div>
+  </div>
+
+  <footer>
+    <b>Nguồn:</b> TikTok Dealer Video Tracker (yt-dlp · dữ liệu công khai TikTok) · <b>Kỳ:</b> 08/06 – 05/07/2026 · <b>Snapshot:</b> 05/07/2026.<br>
+    <b>Cách đọc:</b> KPI chính là độ phủ (view) &amp; tương tác. Eng% = (tym+cmt)/view; với đại lý ít view, chỉ số này dễ nhiễu nên đọc kèm số tuyệt đối. Dữ liệu tự cập nhật hằng ngày qua GitHub Actions tại repo <b>tuananh-din/tiktok-dealer-tracker</b>.
+    <div class="pill">🔄 Trang cập nhật số liệu mỗi ngày</div>
+  </footer>
+
+</div>
+</body>
+</html>

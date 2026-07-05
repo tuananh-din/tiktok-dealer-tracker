@@ -12,3 +12,6 @@ sheet-id.txt
 *.log
 launchd.out.log
 launchd.err.log
+
+# Office temp lock files
+~$*
