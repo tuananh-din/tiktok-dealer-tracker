@@ -8,6 +8,7 @@ the public GitHub Pages report auto-refreshes with the latest data.
 Pure standard library — no extra dependencies, safe to run on GitHub Actions.
 """
 import csv
+import html
 import unicodedata
 from collections import Counter, defaultdict
 from datetime import date, datetime
@@ -244,6 +245,34 @@ def _top_videos(s):
     return "\n".join(out)
 
 
+def _pending_section(p):
+    """Registered-but-no-video dealers. Empty string if none / sheet unavailable."""
+    if not p or not p.get("no_video"):
+        return ""
+    rows = []
+    for i, d in enumerate(p["no_video"], 1):
+        chips = "".join(
+            f'<a href="https://www.tiktok.com/@{h}" target="_blank" rel="noopener">@{h}</a>'
+            for h in d["handles"])
+        store = html.escape(d["store"]) or "—"
+        prov = html.escape(d["prov"]) or "—"
+        rows.append(
+            f'<tr><td class="rk">{i}</td><td>{store}</td>'
+            f'<td>{prov}</td><td class="ch">{chips}</td></tr>')
+    n_nov = len(p["no_video"])
+    return (
+        '\n  <h2 class="sec"><span class="bar"></span>Đại lý đã đăng ký nhưng chưa có video</h2>'
+        f'\n  <p class="sec-note">{p["n_registered"]} đại lý đăng ký · {p["n_have"]} đã có video · '
+        f'<b>{n_nov} kênh chưa xuất hiện video “qrevo 2 pro”</b> '
+        '(chưa thấy trong ~30 video gần nhất) — danh sách để nhắc & kích hoạt.</p>'
+        '\n  <div class="tbl-wrap"><table class="pend">'
+        '<thead><tr><th>#</th><th>Cửa hàng / Đại lý</th><th>Tỉnh/TP</th>'
+        '<th>Kênh TikTok</th></tr></thead><tbody>\n'
+        + "\n".join(rows)
+        + '\n</tbody></table></div>\n'
+    )
+
+
 def _theme_pct(s, name):
     return round(s["themes"].get(name, 0) / s["tot_v"] * 100)
 
@@ -280,12 +309,13 @@ def _recos(s):
 
 
 # ------------------------- render page -------------------------
-def render(s, snapshot):
+def render(s, snapshot, pending=None):
     price = _theme_pct(s, "Giá/khuyến mãi")
     comp = _theme_pct(s, "So sánh sản phẩm")
     period = f"{_f_date(s['date_min'])} – {_f_date(s['date_max'])}/{s['date_max'][:4]}"
     return _TEMPLATE.format(
         css=_CSS,
+        pending_section=_pending_section(pending),
         period=period, snapshot=snapshot,
         n_dealers=s["n_dealers"], tot_v=s["tot_v"], n_weeks=s["n_weeks"],
         tot_view=_vn(s["tot_view"]), avg=_vn(s["avg_view"]), median=_vn(s["median"]),
@@ -316,11 +346,16 @@ def build(csv_path, out_paths, snapshot=None):
     s = compute(Path(csv_path))
     if not s:
         return None
-    html = render(s, snapshot)
+    try:  # optional: registered-but-no-video list (needs the public reg sheet)
+        from src import pending_dealers
+        pending = pending_dealers.compute(Path(csv_path))
+    except Exception:  # noqa: BLE001 - never let this section break the report
+        pending = None
+    page = render(s, snapshot, pending)
     if isinstance(out_paths, (str, Path)):
         out_paths = [out_paths]
     for p in out_paths:
-        Path(p).write_text(html, encoding="utf-8")
+        Path(p).write_text(page, encoding="utf-8")
     return s
 
 

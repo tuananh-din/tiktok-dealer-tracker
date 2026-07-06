@@ -110,6 +110,11 @@ CSS = """
   footer{margin-top:34px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:11.5px;line-height:1.6}
   .pill{display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-bd);color:var(--blue);
     font-size:11.5px;font-weight:700;padding:5px 13px;border-radius:20px;margin-top:14px}
+  table.pend{min-width:520px}
+  table.pend th,table.pend td{text-align:left;white-space:normal}
+  table.pend td.rk{white-space:nowrap;color:var(--muted);font-weight:700}
+  table.pend td.ch{white-space:nowrap}
+  table.pend td.ch a{font-weight:700;margin-right:8px;display:inline-block}
 """
 
 TEMPLATE = """<!DOCTYPE html>
@@ -177,7 +182,7 @@ TEMPLATE = """<!DOCTYPE html>
       </tbody>
     </table>
   </div>
-
+{pending_section}
   <h2 class="sec"><span class="bar"></span>Ba nhà vô địch — ba thế mạnh khác nhau</h2>
   <p class="sec-note">Không có “đại lý tốt nhất” tuyệt đối — mỗi kênh mạnh một trục. Học từ cả ba.</p>
   <div class="leaders">
