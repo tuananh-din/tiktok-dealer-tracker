@@ -68,6 +68,12 @@ MAX_VIDEOS_PER_CHANNEL = int(os.environ.get("MAX_VIDEOS", "30"))  # videos to li
 SINCE_DATE = os.environ.get("SINCE_DATE", "")
 REQUEST_SLEEP_SECONDS = 1.5   # polite delay between channels to avoid rate limits
 
+# Re-fetch view/like/comment for already-saved videos uploaded within this many
+# days, every run — so numbers reflect CURRENT metrics instead of freezing at
+# first-capture time (a fresh post starts near 0 views but keeps growing).
+# Older videos have plateaued, so we skip them to keep runs fast. 0 = disable.
+REFRESH_WINDOW_DAYS = int(os.environ.get("REFRESH_DAYS", "21"))
+
 # --- Local Excel output (used only when "excel" in OUTPUTS) ---
 OUTPUT_DIR = BASE_DIR / "output"
 EXCEL_FILE = OUTPUT_DIR / "qrevo-videos.xlsx"

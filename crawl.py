@@ -7,7 +7,7 @@ headless on GitHub Actions — no local machine needed.
 """
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -134,6 +134,19 @@ def main() -> None:
 
     if new_matches:
         write_outputs(new_matches)
+
+    # Refresh metrics for recently-posted videos: their view/like/comment counts
+    # keep climbing after first capture, so re-fetch a recent window each run to
+    # keep the report's numbers current instead of frozen at posting time.
+    if ("excel" in config.OUTPUTS and config.EXCEL_FILE.exists()
+            and config.REFRESH_WINDOW_DAYS > 0):
+        from src import metrics_refresher
+        since = f"{datetime.now() - timedelta(days=config.REFRESH_WINDOW_DAYS):%Y%m%d}"
+        checked, changed = metrics_refresher.refresh_recent(
+            config.EXCEL_FILE, config.CSV_FILE, since, crawler.extract_video,
+            sleep_seconds=1.0, log=log)
+        log(f"Metrics refreshed: {changed} changed / {checked} recent videos "
+            f"(since {since})")
 
     # Always (re)build the per-dealer summary from the full report.
     if "excel" in config.OUTPUTS and config.EXCEL_FILE.exists():
