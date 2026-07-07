@@ -115,6 +115,23 @@ CSS = """
   table.pend td.rk{white-space:nowrap;color:var(--muted);font-weight:700}
   table.pend td.ch{white-space:nowrap}
   table.pend td.ch a{font-weight:700;margin-right:8px;display:inline-block}
+  .honor{border:1px solid var(--amber-bd);border-radius:14px;padding:20px 22px;margin-top:6px;
+    background:linear-gradient(135deg,#fff9ee,#fdf3e0)}
+  .honor .hh{font-size:16px;font-weight:800;color:#b56d0a;display:flex;flex-wrap:wrap;
+    align-items:baseline;gap:8px}
+  .honor .hh small{font-weight:700;color:var(--muted);font-size:12px}
+  .honor .crit{font-size:12px;color:var(--muted);margin:3px 0 14px}
+  .winners{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:640px){.winners{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:400px){.winners{grid-template-columns:1fr}}
+  .win{background:var(--white);border:1px solid var(--amber-bd);border-radius:12px;
+    padding:14px 12px;text-align:center;position:relative}
+  .win.g1{border-color:#e6b800;box-shadow:0 2px 10px rgba(214,158,0,.18)}
+  .win .medal{font-size:24px;line-height:1}
+  .win .who{font-weight:800;color:var(--navy);font-size:14px;margin-top:6px;word-break:break-all}
+  .win .who a{color:var(--navy)}
+  .win .cnt{font-size:26px;font-weight:800;color:var(--amber);margin-top:3px;line-height:1.1}
+  .win .cnt small{font-size:11px;font-weight:700;color:var(--muted)}
 """
 
 TEMPLATE = """<!DOCTYPE html>
@@ -142,7 +159,7 @@ TEMPLATE = """<!DOCTYPE html>
     <div class="kpi"><div class="k">Bình luận</div><div class="v">{tot_cmt}</div><div class="d">comment</div></div>
     <div class="kpi"><div class="k">Tương tác</div><div class="v">{eng}%</div><div class="d">(tym+cmt)/view</div></div>
   </div>
-
+{winners_section}
   <h2 class="sec"><span class="bar"></span>Điểm nhấn</h2>
   <p class="sec-note">3 điều quan trọng nhất rút ra từ dữ liệu kỳ này.</p>
   <div class="findings">

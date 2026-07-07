@@ -245,6 +245,37 @@ def _top_videos(s):
     return "\n".join(out)
 
 
+def _winners_section():
+    """Frozen weekly award honor roll. Empty string if no weeks recorded."""
+    try:
+        from src.weekly_winners import WEEKLY_WINNERS
+    except Exception:  # noqa: BLE001 - optional section
+        return ""
+    if not WEEKLY_WINNERS:
+        return ""
+    _medals = ["🥇", "🥈", "🥉"]
+    blocks = []
+    for wk in WEEKLY_WINNERS:
+        cards = []
+        for i, (handle, cnt) in enumerate(wk["dealers"]):
+            medal = _medals[i] if i < len(_medals) else "🏆"
+            g1 = " g1" if i == 0 else ""
+            cards.append(
+                f'<div class="win{g1}"><div class="medal">{medal}</div>'
+                f'<div class="who"><a href="https://www.tiktok.com/@{handle}" '
+                f'target="_blank" rel="noopener">@{handle}</a></div>'
+                f'<div class="cnt">{cnt} <small>video</small></div></div>')
+        blocks.append(
+            '\n  <h2 class="sec"><span class="bar"></span>🏆 Vinh danh đại lý xuất sắc</h2>'
+            '\n  <div class="honor">'
+            f'<div class="hh">{html.escape(wk["week"])} '
+            f'<small>{html.escape(wk["range"])}</small></div>'
+            f'<div class="crit">Tiêu chí: {html.escape(wk["criteria"])} · '
+            f'{len(wk["dealers"])} đại lý đạt giải</div>'
+            f'<div class="winners">{"".join(cards)}</div></div>\n')
+    return "".join(blocks)
+
+
 def _pending_section(p):
     """Registered-but-no-video dealers. Empty string if none / sheet unavailable."""
     if not p or not p.get("no_video"):
@@ -315,6 +346,7 @@ def render(s, snapshot, pending=None):
     period = f"{_f_date(s['date_min'])} – {_f_date(s['date_max'])}/{s['date_max'][:4]}"
     return _TEMPLATE.format(
         css=_CSS,
+        winners_section=_winners_section(),
         pending_section=_pending_section(pending),
         period=period, snapshot=snapshot,
         n_dealers=s["n_dealers"], tot_v=s["tot_v"], n_weeks=s["n_weeks"],
