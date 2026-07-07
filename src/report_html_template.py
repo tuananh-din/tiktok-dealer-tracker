@@ -54,7 +54,7 @@ CSS = """
   @media(max-width:600px){.bar-row{grid-template-columns:110px 1fr 84px}}
   .bar-row .nm{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
   .bar-track{background:var(--track);border-radius:20px;height:20px;overflow:hidden}
-  .bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#2f6fed,#5b8bf5)}
+  .bar-fill{display:block;height:100%;min-width:3px;border-radius:20px;background:linear-gradient(90deg,#2f6fed,#5b8bf5)}
   .bar-fill.g{background:linear-gradient(90deg,#1f9d5f,#43c383)}
   .bar-fill.a{background:linear-gradient(90deg,#d9871a,#efab4b)}
   .bar-row .vv{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);font-size:12.5px}
