@@ -86,6 +86,17 @@
   .actions{display:flex;gap:10px;margin-top:16px}
   .actions .btn{flex:1;margin-top:0;font-size:14.5px;padding:14px 8px}
   .note{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+  .pg-week{font-size:12.5px;color:var(--muted);margin:4px 0 16px}
+  .pg-card{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:18px;padding:20px 18px}
+  .pg-big{font-size:46px;font-weight:800;color:#fff;line-height:1}
+  .pg-big .pg-goal{font-size:20px;color:var(--muted);font-weight:700}
+  .pg-bar{height:14px;background:rgba(255,255,255,.12);border-radius:20px;overflow:hidden;margin:16px 0 14px}
+  .pg-fill{display:block;height:100%;width:0;border-radius:20px;min-width:6px;
+    background:linear-gradient(90deg,var(--brand2),var(--brand));transition:width .8s ease}
+  .pg-msg{font-size:14.5px;font-weight:700;line-height:1.55}
+  .pg-strip{margin-top:14px;background:linear-gradient(90deg,rgba(234,10,42,.18),rgba(234,10,42,.07));
+    border:1px solid rgba(234,10,42,.4);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.5}
+  .pg-strip b{color:#fff}
   .mute{position:fixed;top:14px;right:14px;background:rgba(255,255,255,.1);border:1px solid var(--line);
     color:#fff;border-radius:50%;width:40px;height:40px;font-size:16px;cursor:pointer}
   .foot{position:fixed;bottom:9px;left:0;right:0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.35)}
@@ -113,13 +124,13 @@
   <section class="fade" id="entry">
     <div class="eyebrow">Chương trình TikTok · Qrevo 2 Pro</div>
     <div class="gift" id="giftEmoji">🎁</div>
-    <div class="hello muted">Nhập tên kênh TikTok của bạn để nhận vinh danh</div>
+    <div class="hello muted">Nhập tên kênh TikTok của bạn để xem tiến độ &amp; phần thưởng tuần này</div>
     <div id="inputRow"><input id="handleInput" class="field" type="text"
       placeholder="@tên_kênh hoặc link TikTok" autocomplete="off"
       autocapitalize="off" spellcheck="false"></div>
     <div class="who-b" id="entryWho"></div>
     <div class="err" id="entryErr"></div>
-    <div><button class="btn" id="openButton">🎉 Mở quà vinh danh</button></div>
+    <div><button class="btn" id="openButton">🎉 Xem ngay</button></div>
     <div class="sub muted">Nhập đúng username kênh TikTok bạn dùng đăng video Qrevo 2 Pro.</div>
   </section>
 
@@ -146,17 +157,23 @@
       <button class="btn" id="copyButton">🔗 Copy link</button>
     </div>
     <div class="note">Team sẽ chủ động liên hệ để trao thưởng. Cảm ơn anh/chị đã đồng hành! ❤️</div>
+    <div class="pg-strip" id="winStrip"></div>
     <div><button class="btn ghost" id="replayButton">↺ Mở lại</button></div>
   </section>
 
-  <!-- NOT A WINNER -->
-  <section class="fade hidden" id="notFoundView">
-    <div class="gift" style="font-size:80px;animation:none">🌱</div>
-    <div class="who-b" id="nfWho">Chưa đạt giải tuần này</div>
-    <div class="sub muted">Tuần này kênh của bạn chưa nằm trong danh sách vinh danh —
-      mình cùng bứt phá tuần sau nhé! Ra thêm nhiều video Qrevo 2 Pro chất lượng
-      để nhận giải ở các tuần tới. 💪</div>
-    <div><a class="btn ghost" href="./index.html">← Về dashboard</a></div>
+  <!-- TIẾN ĐỘ TUẦN NÀY (đại lý chưa đạt / đang đua) -->
+  <section class="fade hidden" id="progressView">
+    <div class="eyebrow">Chương trình TikTok · Qrevo 2 Pro</div>
+    <div class="gift" id="pgIcon" style="font-size:78px;animation:none">🚀</div>
+    <div class="who-b" id="pgHandle">@dealer</div>
+    <div class="pg-week" id="pgWeek">Tuần này</div>
+    <div class="pg-card">
+      <div class="pg-big"><span id="pgCount">0</span><span class="pg-goal"> / <span id="pgGoal">10</span> video</span></div>
+      <div class="pg-bar"><span class="pg-fill" id="pgFill"></span></div>
+      <div class="pg-msg" id="pgMsg"></div>
+    </div>
+    <div class="sub muted" id="pgSub"></div>
+    <div><button class="btn ghost" id="pgBack">↺ Nhập kênh khác</button></div>
   </section>
 </div>
 
@@ -199,8 +216,25 @@ let CURRENT = null;
 
 const $ = id => document.getElementById(id);
 function show(id){
-  ["entry","winnerView","notFoundView"].forEach(s=>$(s).classList.toggle("hidden", s!==id));
+  ["entry","winnerView","progressView"].forEach(s=>$(s).classList.toggle("hidden", s!==id));
   if(id !== "winnerView" && typeof stopConfetti === "function") stopConfetti();
+}
+
+// Tiến độ tuần hiện tại của từng đại lý (database từ tracker).
+const PROGRESS_URL = "./output/dealer-progress.json";
+let PROGRESS = null;
+async function loadProgress(){
+  if(PROGRESS) return PROGRESS;
+  try{
+    const r = await fetch(PROGRESS_URL, {cache:"no-store"});
+    if(r.ok){ const j = await r.json(); if(j && j.dealers){ PROGRESS = j; return j; } }
+  }catch(e){}
+  PROGRESS = {week:"Tuần này", range:"", threshold:10, prize:"500.000đ + Vinh danh", dealers:{}};
+  return PROGRESS;
+}
+function weekOf(h){
+  const p = (PROGRESS && PROGRESS.dealers[h]) || {week_videos:0, total_videos:0};
+  return p;
 }
 
 async function loadWinners(){
@@ -265,7 +299,7 @@ function stopConfetti(){
   if(fxWave){ clearTimeout(fxWave); fxWave = null; }
 }
 
-function showWinner(w){
+function showWinner(w, wk, prog){
   CURRENT = w;
   $("wMedal").textContent = MEDAL_EMOJI[w.medal] || "🏆";
   $("wHandle").textContent = "@" + w.handle;
@@ -275,7 +309,48 @@ function showWinner(w){
   $("wCriteria").textContent = w.criteria || "";
   $("wPrize").textContent = w.prize || "Vinh danh";
   $("wWeek").textContent = `${w.week} · ${w.range}`;
+  // strip tiến độ TUẦN NÀY — push làm thêm để nhận giải tiếp
+  const th = (prog && prog.threshold) || 10;
+  const cur = wk ? wk.week_videos : 0;
+  const need = Math.max(0, th - cur);
+  const wl = (prog && prog.week) || "Tuần này";
+  $("winStrip").innerHTML = cur >= th
+    ? `🔥 <b>${wl}</b>: bạn đã có <b>${cur} video</b> — đủ điều kiện nhận giải tiếp! Giữ phong độ nhé.`
+    : (cur > 0
+        ? `🔥 <b>${wl}</b>: bạn đã đăng <b>${cur} video</b>, cần thêm <b>${need}</b> nữa để nhận giải tuần này!`
+        : `🔥 <b>${wl}</b> đã bắt đầu — đăng video Qrevo 2 Pro ngay để tiếp tục nhận giải!`);
   show("winnerView"); fireConfetti(); playSfx();
+}
+
+// Đại lý CHƯA đạt giải (hoặc đang đua): hiện tiến độ tuần này + động viên.
+function showProgress(h, wk, prog){
+  const th = (prog && prog.threshold) || 10;
+  const cur = wk ? wk.week_videos : 0;
+  const tot = wk ? wk.total_videos : 0;
+  const need = Math.max(0, th - cur);
+  const prize = (prog && prog.prize) || "500.000đ + Vinh danh";
+  $("pgHandle").textContent = "@" + h;
+  $("pgWeek").textContent = `${(prog&&prog.week)||"Tuần này"} · ${(prog&&prog.range)||""}`;
+  $("pgCount").textContent = cur;
+  $("pgGoal").textContent = th;
+  show("progressView");
+  setTimeout(()=>{ $("pgFill").style.width = Math.min(100, Math.round(cur/th*100)) + "%"; }, 80);
+  if(cur >= th){
+    $("pgIcon").textContent = "🏆";
+    $("pgMsg").innerHTML = `🎉 Tuyệt vời! Bạn đã đủ <b>${th} video</b> tuần này — đủ điều kiện nhận <b>${prize}</b>! Đăng thêm để giữ top nhé.`;
+    $("pgSub").textContent = "Kết quả chính thức được chốt & công bố cuối tuần.";
+  } else if(cur > 0){
+    $("pgIcon").textContent = "🚀";
+    $("pgMsg").innerHTML = `Bạn đã đăng <b>${cur}/${th} video</b> Qrevo 2 Pro tuần này.<br>Chỉ cần <b>${need} video</b> nữa là nhận <b>${prize}</b>! 💪`;
+    $("pgSub").textContent = "Cố lên, bạn sắp chạm mốc rồi!";
+  } else {
+    $("pgIcon").textContent = "🌱";
+    $("pgMsg").innerHTML = `Tuần này bạn <b>chưa có video</b> Qrevo 2 Pro nào.<br>Đăng đủ <b>${th} video</b> trong tuần để nhận <b>${prize}</b>!`;
+    $("pgSub").textContent = tot > 0 ? "Bạn từng đăng rất tốt — bứt phá lại tuần này nào! 🔥" : "Bắt đầu đăng video ngay để tham gia đua giải nhé!";
+  }
+  if(cur > 0 && typeof confetti === "function"){
+    confetti({particleCount:70, spread:75, startVelocity:40, origin:{y:.32}, colors:FX_COLORS});
+  }
 }
 
 // ---- âm thanh (phát sau click, tránh bị chặn autoplay) ----
@@ -336,11 +411,13 @@ $("openButton").onclick = async ()=>{
   const h = normHandle(raw);
   if(!h){ $("entryErr").textContent = "Nhập tên kênh TikTok của bạn nhé."; return; }
   $("entryErr").textContent = "";
-  const winners = await loadWinners();
+  const [winners, prog] = await Promise.all([loadWinners(), loadProgress()]);
+  const wk = weekOf(h);
   const w = winners.find(it => (it.handle||"").toLowerCase().replace(/^@/,"") === h);
-  if(w) showWinner(w);
-  else { $("nfWho").textContent = "@" + h; show("notFoundView"); }
+  if(w) showWinner(w, wk, prog);      // đạt giải: vinh danh + tiến độ tuần này
+  else  showProgress(h, wk, prog);    // chưa đạt: tiến độ + động viên push tiếp
 };
+$("pgBack").onclick = ()=>{ show("entry"); const el=$("handleInput"); if(el){ el.value=""; el.focus(); } };
 // Enter trong ô input = bấm Mở quà
 const hi = $("handleInput");
 if(hi) hi.addEventListener("keydown", e=>{ if(e.key === "Enter") $("openButton").click(); });

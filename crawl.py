@@ -164,6 +164,15 @@ def main() -> None:
     except Exception as e:  # noqa: BLE001 - non-critical
         log(f"  ! winners export failed: {e}")
 
+    # Per-dealer progress for the current week (live motivation on celebrate.html).
+    try:
+        from src import dealer_progress
+        dn = dealer_progress.write_json(
+            config.CSV_FILE, config.OUTPUT_DIR / "dealer-progress.json")
+        log(f"Dealer progress exported: {dn} dealers -> output/dealer-progress.json")
+    except Exception as e:  # noqa: BLE001 - non-critical
+        log(f"  ! dealer progress export failed: {e}")
+
     # Always (re)build the public HTML report from the FULL current dataset so
     # the GitHub Pages page (index.html) reflects the latest numbers every run.
     # Wrapped so a report glitch never aborts the crawl/commit.
