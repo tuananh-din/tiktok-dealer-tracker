@@ -199,10 +199,16 @@ function flatten(j){ const out=[]; (j.weeks||[]).forEach(w=>(w.dealers||[]).forE
 const FX_COLORS = ["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"];
 let fxTimer = null, fxWave = null, fxOn = false;
 
-// 1 quả pháo hoa nổ Ở NỬA TRÊN màn hình rồi rơi xuống.
+// 1 NHỊP = nhiều quả nổ CÙNG LÚC ở nửa trên — số lượng lớn, vang trời.
 function topBurst(){
-  confetti({particleCount:75, spread:360, startVelocity:34, ticks:120, gravity:1.1,
-    origin:{ x: 0.1 + Math.random()*0.8, y: 0.04 + Math.random()*0.30 }, colors:FX_COLORS});
+  const n = 5 + Math.floor(Math.random()*3);   // 5–7 quả nổ cùng lúc
+  for(let i=0;i<n;i++){
+    confetti({particleCount:130, spread:360, startVelocity:46, ticks:150, gravity:1.05, scalar:1.15,
+      origin:{ x: 0.05 + Math.random()*0.9, y: 0.03 + Math.random()*0.34 }, colors:FX_COLORS});
+  }
+  // 2 vòi bắn vọt cao từ 2 góc trên cho thêm hoành tráng
+  confetti({particleCount:60, angle:60,  spread:55, startVelocity:65, origin:{x:0.02, y:0.28}, colors:FX_COLORS});
+  confetti({particleCount:60, angle:120, spread:55, startVelocity:65, origin:{x:0.98, y:0.28}, colors:FX_COLORS});
 }
 
 // Nổ THEO ĐỢT: 5–10 quả ở phía trên, rồi NGHỈ 5–8s cho rơi hết, xong nổ tiếp.
@@ -224,7 +230,10 @@ function fireConfetti(){
   if(typeof confetti !== "function"){ return; }
   stopConfetti();
   fxOn = true;
-  confetti({particleCount:150, spread:120, startVelocity:45, origin:{y:.2}, colors:FX_COLORS}); // mở màn ở trên
+  // mở màn nổ vang trời
+  confetti({particleCount:300, spread:160, startVelocity:55, origin:{y:.28}, colors:FX_COLORS});
+  confetti({particleCount:120, spread:100, startVelocity:75, origin:{x:0.2, y:.3}, colors:FX_COLORS});
+  confetti({particleCount:120, spread:100, startVelocity:75, origin:{x:0.8, y:.3}, colors:FX_COLORS});
   wave();
 }
 
