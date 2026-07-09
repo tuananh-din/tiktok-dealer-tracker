@@ -30,8 +30,8 @@
   .wrap{width:100%;max-width:400px;margin:0 auto;min-height:100dvh;
     padding:24px 18px;display:flex;flex-direction:column;justify-content:center;text-align:center}
   .brand{margin-bottom:14px}
-  .brand-logo{height:52px;width:52px;object-fit:contain;border-radius:13px;
-    box-shadow:0 6px 18px rgba(234,10,42,.4)}
+  .brand-logo{height:58px;width:58px;object-fit:contain;
+    filter:drop-shadow(0 6px 16px rgba(234,10,42,.5))}
   .brand.nologo .brand-logo{display:none}
   .brand.nologo::after{content:"roborock";font-size:23px;font-weight:800;letter-spacing:.5px;
     color:#fff}
@@ -97,7 +97,7 @@
 <div class="wrap">
   <!-- LOGO ROBOROCK (thay bằng ảnh thật: bỏ file assets/roborock-logo.png) -->
   <div class="brand" id="brandBox">
-    <img class="brand-logo" src="assets/roborock-logo.svg" alt="roborock"
+    <img class="brand-logo" src="assets/roborock-logo.png" alt="roborock"
          onerror="document.getElementById('brandBox').classList.add('nologo')">
   </div>
   <!-- ENTRY -->

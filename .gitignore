@@ -16,5 +16,8 @@ launchd.err.log
 # Office temp lock files
 ~$*
 
+# macOS
+.DS_Store
+
 # Large source audio — the compressed assets/celebrate.m4a is what ships
 assets/celebrate.mp3
