@@ -7,6 +7,9 @@ crawls shift past-week counts. That is why winners are recorded here by hand
 with the frozen handle + video-count pairs, ordered best-first.
 """
 
+# Reward shown on the celebration page for each winner.
+PRIZE = "500.000đ + Vinh danh"
+
 WEEKLY_WINNERS = [
     {
         "week": "Tuần 1",

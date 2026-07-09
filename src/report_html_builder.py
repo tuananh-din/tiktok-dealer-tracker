@@ -264,7 +264,9 @@ def _winners_section():
                 f'<div class="win{g1}"><div class="medal">{medal}</div>'
                 f'<div class="who"><a href="https://www.tiktok.com/@{handle}" '
                 f'target="_blank" rel="noopener">@{handle}</a></div>'
-                f'<div class="cnt">{cnt} <small>video</small></div></div>')
+                f'<div class="cnt">{cnt} <small>video</small></div>'
+                f'<a class="giftlink" href="celebrate.html?dealer={handle}" '
+                f'target="_blank" rel="noopener">🎁 Mở quà vinh danh</a></div>')
         blocks.append(
             '\n  <h2 class="sec"><span class="bar"></span>🏆 Vinh danh đại lý xuất sắc</h2>'
             '\n  <div class="honor">'

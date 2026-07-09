@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>🏆 Vinh danh đại lý — Qrevo 2 Pro</title>
+<meta property="og:title" content="🎁 Bạn có một phần quà vinh danh từ chương trình Qrevo 2 Pro!">
+<meta property="og:description" content="Mở quà để nhận vinh danh & phần thưởng tuần.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="theme-color" content="#1a1140">
+<!-- Confetti qua CDN (theo gợi ý). Nếu chặn CDN, trang vẫn chạy — chỉ thiếu confetti. -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+  :root{
+    --bg1:#1a1140; --bg2:#3b1361; --bg3:#0c0a24;
+    --gold:#ffcf4d; --gold2:#f5a623; --muted:#c9c0e8; --line:rgba(255,255,255,.14);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:#fff;min-height:100dvh;overflow-x:hidden;
+    background:
+      radial-gradient(900px 600px at 50% -8%, var(--bg2), transparent 60%),
+      radial-gradient(600px 500px at 15% 100%, rgba(255,77,109,.18), transparent 55%),
+      linear-gradient(160deg,var(--bg1),var(--bg3));
+  }
+  .wrap{width:100%;max-width:400px;margin:0 auto;min-height:100dvh;
+    padding:24px 18px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+  .hidden{display:none!important}
+  .fade{animation:pop .5s ease both}
+  @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+  .eyebrow{font-size:11.5px;letter-spacing:2px;font-weight:800;color:var(--gold);text-transform:uppercase}
+  .muted{color:var(--muted)}
+  .gift{font-size:118px;line-height:1;margin:16px 0;display:inline-block;
+    filter:drop-shadow(0 14px 30px rgba(0,0,0,.5));animation:shake 1.7s ease-in-out infinite}
+  @keyframes shake{0%,86%,100%{transform:rotate(0) scale(1)}
+    89%{transform:rotate(-7deg) scale(1.04)}93%{transform:rotate(7deg) scale(1.06)}96%{transform:rotate(-4deg)}}
+  .hello{font-size:16px;margin:2px 0}
+  .who-b{font-size:22px;font-weight:800;word-break:break-all}
+  .btn{display:inline-block;border:none;cursor:pointer;font-weight:800;border-radius:999px;
+    padding:16px 32px;font-size:17px;margin-top:20px;color:#241a05;text-decoration:none;
+    background:linear-gradient(180deg,var(--gold),var(--gold2));
+    box-shadow:0 10px 26px rgba(245,166,35,.45);transition:transform .12s;min-height:52px}
+  .btn:active{transform:scale(.96)}
+  .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);box-shadow:none;
+    font-size:14px;padding:12px 22px}
+  .sub{font-size:12.5px;margin-top:16px;line-height:1.55}
+
+  .cert{background:linear-gradient(180deg,#221a4d,#1a1440);border:1px solid var(--line);
+    border-radius:22px;padding:26px 22px 22px;box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;overflow:hidden}
+  .cert::before{content:"";position:absolute;inset:0;border-radius:22px;padding:1.5px;
+    background:linear-gradient(135deg,var(--gold),transparent 40%,transparent 60%,var(--gold));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+  .medal{font-size:66px;line-height:1;filter:drop-shadow(0 8px 18px rgba(0,0,0,.5));
+    animation:float 1.9s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-9px) scale(1.04)}}
+  .congrats{font-size:13px;letter-spacing:3px;font-weight:800;color:var(--gold);text-transform:uppercase;margin-top:4px}
+  .win-name{font-size:29px;font-weight:800;margin:6px 0 2px;word-break:break-all}
+  .rankline{font-size:14px;color:var(--muted)}
+  .stats{display:flex;gap:10px;justify-content:center;margin:16px 0}
+  .stat{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-width:96px}
+  .stat .n{font-size:23px;font-weight:800;color:var(--gold)}
+  .stat .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+  .criteria{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .prize{margin-top:12px;background:linear-gradient(90deg,rgba(255,207,77,.16),rgba(245,166,35,.16));
+    border:1px solid rgba(255,207,77,.35);border-radius:14px;padding:13px}
+  .prize .pl{font-size:11px;letter-spacing:1px;color:var(--gold);font-weight:800;text-transform:uppercase}
+  .prize .pv{font-size:21px;font-weight:800;margin-top:2px}
+  .week{font-size:12px;color:var(--muted);margin-top:12px}
+  .actions{display:flex;gap:10px;margin-top:16px}
+  .actions .btn{flex:1;margin-top:0;font-size:14.5px;padding:14px 8px}
+  .note{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+  .mute{position:fixed;top:14px;right:14px;background:rgba(255,255,255,.1);border:1px solid var(--line);
+    color:#fff;border-radius:50%;width:40px;height:40px;font-size:16px;cursor:pointer}
+  .foot{position:fixed;bottom:9px;left:0;right:0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.35)}
+</style>
+</head>
+<body>
+<button class="mute" id="mute" title="Bật/tắt âm thanh">🔊</button>
+
+<div class="wrap">
+  <!-- ENTRY -->
+  <section class="fade" id="entry">
+    <div class="eyebrow">Chương trình TikTok · Qrevo 2 Pro</div>
+    <div class="gift" id="giftEmoji">🎁</div>
+    <div class="hello muted">Bạn có một phần quà vinh danh</div>
+    <div class="who-b" id="entryWho">&nbsp;</div>
+    <div><button class="btn" id="openButton">🎉 Mở quà</button></div>
+    <div class="sub muted">Dành cho các đại lý TikTok xuất sắc đạt giải tuần này.</div>
+  </section>
+
+  <!-- WINNER -->
+  <section class="fade hidden" id="winnerView">
+    <div class="cert" id="certCard">
+      <div class="medal" id="wMedal">🏆</div>
+      <div class="congrats">Xin chúc mừng</div>
+      <div class="win-name" id="wHandle">@dealer</div>
+      <div class="rankline" id="wRank">Đại lý đạt giải</div>
+      <div class="stats">
+        <div class="stat"><div class="n" id="wVideos">0</div><div class="l">Video / tuần</div></div>
+        <div class="stat"><div class="n" id="wRankNum">–</div><div class="l">Xếp hạng</div></div>
+      </div>
+      <div class="criteria" id="wCriteria"></div>
+      <div class="prize">
+        <div class="pl">🎁 Phần thưởng</div>
+        <div class="pv" id="wPrize">500.000đ + Vinh danh</div>
+      </div>
+      <div class="week" id="wWeek">Tuần 1</div>
+    </div>
+    <div class="actions">
+      <button class="btn" id="dlButton">📥 Tải ảnh khoe</button>
+      <button class="btn" id="copyButton">🔗 Copy link</button>
+    </div>
+    <div class="note">Team sẽ chủ động liên hệ để trao thưởng. Cảm ơn anh/chị đã đồng hành! ❤️</div>
+    <div><button class="btn ghost" id="replayButton">↺ Mở lại</button></div>
+  </section>
+
+  <!-- NOT A WINNER -->
+  <section class="fade hidden" id="notFoundView">
+    <div class="gift" style="font-size:80px;animation:none">🌱</div>
+    <div class="who-b" id="nfWho">Chưa đạt giải tuần này</div>
+    <div class="sub muted">Tuần này kênh của bạn chưa nằm trong danh sách vinh danh —
+      mình cùng bứt phá tuần sau nhé! Ra thêm nhiều video Qrevo 2 Pro chất lượng
+      để nhận giải ở các tuần tới. 💪</div>
+    <div><a class="btn ghost" href="./index.html">← Về dashboard</a></div>
+  </section>
+</div>
+
+<div class="foot">Qrevo 2 Pro · Dealer Celebration · dữ liệu từ hệ thống theo dõi TikTok</div>
+<audio id="sfx" preload="auto" src="assets/celebrate.mp3"></audio>
+
+<script>
+const WINNERS_URL = "./output/winners.json";
+// Bản dự phòng nếu chưa fetch được winners.json (mở file:// hoặc CDN/JSON lỗi).
+const FALLBACK = [
+  {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"kimanh_1202",videos:13,rank:1,medal:"gold",prize:"500.000đ + Vinh danh"},
+  {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"thurobot88",videos:13,rank:2,medal:"silver",prize:"500.000đ + Vinh danh"},
+  {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"phanthulan715",videos:13,rank:3,medal:"bronze",prize:"500.000đ + Vinh danh"},
+  {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"homecaredigital",videos:11,rank:4,medal:"",prize:"500.000đ + Vinh danh"},
+  {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"momimart.vn",videos:11,rank:5,medal:"",prize:"500.000đ + Vinh danh"},
+  {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"thietbibepan",videos:10,rank:6,medal:"",prize:"500.000đ + Vinh danh"}
+];
+const MEDAL_EMOJI = {gold:"🥇",silver:"🥈",bronze:"🥉"};
+const params = new URLSearchParams(location.search);
+const dealer = (params.get("dealer") || "").trim().replace(/^@/,"").toLowerCase();
+let CURRENT = null;
+
+const $ = id => document.getElementById(id);
+function show(id){ ["entry","winnerView","notFoundView"].forEach(s=>$(s).classList.toggle("hidden", s!==id)); }
+
+async function loadWinners(){
+  try{
+    const r = await fetch(WINNERS_URL, {cache:"no-store"});
+    if(!r.ok) throw 0;
+    const j = await r.json();
+    if(Array.isArray(j) && j.length) return j;
+    // hỗ trợ cả dạng {weeks:[{dealers:[]}]} nếu sau này đổi format
+    if(j && j.weeks) return flatten(j);
+    throw 0;
+  }catch(e){ return FALLBACK; }
+}
+function flatten(j){ const out=[]; (j.weeks||[]).forEach(w=>(w.dealers||[]).forEach((d,i)=>
+  out.push({week:w.week,range:w.range,criteria:w.criteria,handle:d.handle||d[0],
+    videos:d.videos||d[1],rank:i+1,medal:["gold","silver","bronze"][i]||"",prize:j.prize||""}))); return out; }
+
+function fireConfetti(){
+  if(typeof confetti !== "function"){ return; }
+  const end = Date.now() + 3000;
+  (function frame(){
+    confetti({particleCount:7,angle:60,spread:60,origin:{x:0},colors:["#ffcf4d","#f5a623","#ff5d8f","#7c5cff","#4dd2ff"]});
+    confetti({particleCount:7,angle:120,spread:60,origin:{x:1},colors:["#ffcf4d","#f5a623","#ff5d8f","#7c5cff","#4dd2ff"]});
+    if(Date.now()<end) requestAnimationFrame(frame);
+  })();
+  confetti({particleCount:150,spread:100,startVelocity:45,origin:{y:.35}});
+}
+
+function showWinner(w){
+  CURRENT = w;
+  $("wMedal").textContent = MEDAL_EMOJI[w.medal] || "🏆";
+  $("wHandle").textContent = "@" + w.handle;
+  $("wRank").textContent = w.rank<=3 ? `Đại lý đạt giải — Top ${w.rank}` : "Đại lý đạt giải";
+  $("wVideos").textContent = w.videos;
+  $("wRankNum").textContent = "#" + w.rank;
+  $("wCriteria").textContent = w.criteria || "";
+  $("wPrize").textContent = w.prize || "Vinh danh";
+  $("wWeek").textContent = `${w.week} · ${w.range}`;
+  show("winnerView"); fireConfetti(); playSfx();
+}
+
+// ---- âm thanh (phát sau click, tránh bị chặn autoplay) ----
+let muted=false; const sfx=$("sfx");
+$("mute").onclick=()=>{ muted=!muted; $("mute").textContent=muted?"🔇":"🔊"; if(muted) sfx.pause(); };
+function playSfx(){ if(muted) return; try{ sfx.currentTime=0; sfx.play().catch(()=>{});}catch(e){} }
+
+// ---- tải ảnh bằng khen ----
+function downloadCert(){
+  const w=CURRENT; const c=document.createElement("canvas"); c.width=1080; c.height=1350;
+  const x=c.getContext("2d");
+  const g=x.createLinearGradient(0,0,0,1350); g.addColorStop(0,"#3b1361"); g.addColorStop(1,"#0c0a24");
+  x.fillStyle=g; x.fillRect(0,0,1080,1350);
+  x.strokeStyle="#ffcf4d"; x.lineWidth=6; x.strokeRect(40,40,1000,1270);
+  x.textAlign="center";
+  x.fillStyle="#ffcf4d"; x.font="700 32px Arial"; x.fillText("CHƯƠNG TRÌNH TIKTOK · QREVO 2 PRO",540,165);
+  x.font="120px Arial"; x.fillText(MEDAL_EMOJI[w.medal]||"🏆",540,360);
+  x.fillStyle="#ffcf4d"; x.font="800 40px Arial"; x.fillText("XIN CHÚC MỪNG",540,470);
+  x.fillStyle="#fff"; x.font="800 74px Arial"; x.fillText("@"+w.handle,540,568);
+  x.fillStyle="#c9c0e8"; x.font="600 38px Arial";
+  x.fillText(w.rank<=3?`Đại lý đạt giải — Top ${w.rank}`:"Đại lý đạt giải",540,648);
+  x.fillStyle="#fff"; x.font="800 58px Arial"; x.fillText(w.videos+" video Qrevo 2 Pro",540,780);
+  x.fillStyle="rgba(255,207,77,.15)"; roundRect(x,190,860,700,150,20); x.fill();
+  x.strokeStyle="rgba(255,207,77,.5)"; x.lineWidth=3; roundRect(x,190,860,700,150,20); x.stroke();
+  x.fillStyle="#ffcf4d"; x.font="700 30px Arial"; x.fillText("🎁 PHẦN THƯỞNG",540,915);
+  x.fillStyle="#fff"; x.font="800 50px Arial"; x.fillText(w.prize||"Vinh danh",540,980);
+  x.fillStyle="#c9c0e8"; x.font="500 32px Arial"; x.fillText(`${w.week} · ${w.range}`,540,1100);
+  x.fillStyle="rgba(255,255,255,.5)"; x.font="500 26px Arial"; x.fillText("Dealer Program · Qrevo 2 Pro",540,1250);
+  const a=document.createElement("a"); a.download=`bang-khen-${w.handle}.png`; a.href=c.toDataURL("image/png"); a.click();
+}
+function roundRect(x,X,Y,w,h,r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r);
+  x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
+
+// ---- sự kiện ----
+$("openButton").onclick = async ()=>{
+  const winners = await loadWinners();
+  const w = winners.find(it => (it.handle||"").toLowerCase().replace(/^@/,"") === dealer);
+  if(dealer && w) showWinner(w);
+  else { $("nfWho").textContent = dealer ? "@"+dealer : "Chưa đạt giải tuần này"; show("notFoundView"); }
+};
+$("replayButton").onclick = ()=>{ fireConfetti(); playSfx(); };
+$("dlButton").onclick = downloadCert;
+$("copyButton").onclick = async ()=>{
+  try{ await navigator.clipboard.writeText(location.href); $("copyButton").textContent="✅ Đã copy"; }
+  catch(e){ alert(location.href); }
+};
+
+// hiện handle ở màn entry nếu link đã có ?dealer=
+if(dealer) $("entryWho").textContent = "@" + dealer;
+show("entry");
+</script>
+</body>
+</html>

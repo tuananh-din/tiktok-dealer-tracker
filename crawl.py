@@ -155,6 +155,15 @@ def main() -> None:
             config.EXCEL_FILE, config.SUMMARY_CSV, config.SUMMARY_XLSX)
         log(f"Summary rebuilt: {n} dealers")
 
+    # Export winners.json (frozen award list) so the public celebration page
+    # (celebrate.html) can look up who won. Lives under output/ so CI commits it.
+    try:
+        from src import winners_export
+        w = winners_export.write_json(config.OUTPUT_DIR / "winners.json")
+        log(f"Winners exported: {w} records -> output/winners.json")
+    except Exception as e:  # noqa: BLE001 - non-critical
+        log(f"  ! winners export failed: {e}")
+
     # Always (re)build the public HTML report from the FULL current dataset so
     # the GitHub Pages page (index.html) reflects the latest numbers every run.
     # Wrapped so a report glitch never aborts the crawl/commit.

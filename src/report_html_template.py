@@ -132,6 +132,10 @@ CSS = """
   .win .who a{color:var(--navy)}
   .win .cnt{font-size:26px;font-weight:800;color:var(--amber);margin-top:3px;line-height:1.1}
   .win .cnt small{font-size:11px;font-weight:700;color:var(--muted)}
+  .win .giftlink{display:inline-block;margin-top:9px;font-size:11.5px;font-weight:800;
+    color:#b56d0a;background:#fff7e6;border:1px solid var(--amber-bd);border-radius:999px;
+    padding:5px 12px;text-decoration:none}
+  .win .giftlink:hover{background:#ffefc9;text-decoration:none}
 """
 
 TEMPLATE = """<!DOCTYPE html>
