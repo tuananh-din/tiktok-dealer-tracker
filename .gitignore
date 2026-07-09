@@ -15,3 +15,6 @@ launchd.err.log
 
 # Office temp lock files
 ~$*
+
+# Large source audio — the compressed assets/celebrate.m4a is what ships
+assets/celebrate.mp3
