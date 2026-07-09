@@ -169,6 +169,8 @@ const FALLBACK = [
   {week:"Tuần 1",range:"29/06 – 06/07/2026",criteria:"≥ 10 video Qrevo 2 Pro trong tuần",handle:"thietbibepan",videos:10,rank:6,medal:"",prize:"500.000đ + Vinh danh"}
 ];
 const MEDAL_EMOJI = {gold:"🥇",silver:"🥈",bronze:"🥉"};
+// Nạp sẵn logo Roborock để vẽ vào ảnh bằng khen khi tải về.
+const certLogo = new Image(); certLogo.src = "assets/roborock-logo.png";
 const params = new URLSearchParams(location.search);
 const dealer = (params.get("dealer") || "").trim().replace(/^@/,"").toLowerCase();
 let CURRENT = null;
@@ -202,20 +204,25 @@ function fireConfetti(){
   if(typeof confetti !== "function"){ return; }
   stopConfetti();
   // loạt mở màn hoành tráng
-  confetti({particleCount:160,spread:110,startVelocity:48,origin:{y:.35},colors:FX_COLORS});
+  confetti({particleCount:260,spread:140,startVelocity:52,origin:{y:.4},colors:FX_COLORS});
 
-  // 2 vòi 2 bên bắn đều tay, không ngừng
+  // NHIỀU vòi bắn liên tục — 2 bên + giữa, dày đặc ngập trời
   (function stream(){
-    confetti({particleCount:6,angle:60,spread:62,origin:{x:0},colors:FX_COLORS});
-    confetti({particleCount:6,angle:120,spread:62,origin:{x:1},colors:FX_COLORS});
+    confetti({particleCount:12,angle:60, spread:80,origin:{x:0,  y:1},colors:FX_COLORS});
+    confetti({particleCount:12,angle:120,spread:80,origin:{x:1,  y:1},colors:FX_COLORS});
+    confetti({particleCount:8, angle:75, spread:90,origin:{x:0.3,y:1},colors:FX_COLORS});
+    confetti({particleCount:8, angle:105,spread:90,origin:{x:0.7,y:1},colors:FX_COLORS});
+    confetti({particleCount:8, angle:90, spread:120,origin:{x:0.5,y:1},colors:FX_COLORS});
     fxRaf = requestAnimationFrame(stream);
   })();
 
-  // cứ ~0.7s nổ 1 quả pháo hoa ở vị trí ngẫu nhiên
+  // nổ pháo hoa dồn dập khắp bầu trời (mỗi ~0.35s, 3 quả)
   fxTimer = setInterval(()=>{
-    confetti({particleCount:50,spread:360,startVelocity:32,ticks:90,
-      origin:{x:Math.random(), y:Math.random()*0.55}, colors:FX_COLORS});
-  }, 700);
+    for(let k=0;k<3;k++){
+      confetti({particleCount:80,spread:360,startVelocity:38,ticks:110,
+        origin:{x:Math.random(), y:Math.random()*0.65}, colors:FX_COLORS});
+    }
+  }, 350);
 }
 
 function stopConfetti(){
@@ -249,8 +256,11 @@ function downloadCert(){
   x.fillStyle=g; x.fillRect(0,0,1080,1350);
   x.strokeStyle="#EA0A2A"; x.lineWidth=6; x.strokeRect(40,40,1000,1270);
   x.textAlign="center";
-  x.fillStyle="#ff6b82"; x.font="700 32px Arial"; x.fillText("roborock · CHƯƠNG TRÌNH TIKTOK QREVO 2 PRO",540,165);
-  x.font="120px Arial"; x.fillText(MEDAL_EMOJI[w.medal]||"🏆",540,360);
+  // logo Roborock trên cùng
+  if(certLogo.complete && certLogo.naturalWidth){ x.drawImage(certLogo, 480, 78, 120, 120); }
+  // tên chương trình (không có chữ "roborock")
+  x.fillStyle="#ff6b82"; x.font="700 30px Arial"; x.fillText("CHƯƠNG TRÌNH TIKTOK · QREVO 2 PRO",540,250);
+  x.font="112px Arial"; x.fillText(MEDAL_EMOJI[w.medal]||"🏆",540,390);
   x.fillStyle="#ff6b82"; x.font="800 40px Arial"; x.fillText("XIN CHÚC MỪNG",540,470);
   x.fillStyle="#fff"; x.font="800 74px Arial"; x.fillText("@"+w.handle,540,568);
   x.fillStyle="#e9c2c9"; x.font="600 38px Arial";
