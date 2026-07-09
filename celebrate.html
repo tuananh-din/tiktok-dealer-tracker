@@ -7,13 +7,15 @@
 <meta property="og:title" content="🎁 Bạn có một phần quà vinh danh từ chương trình Qrevo 2 Pro!">
 <meta property="og:description" content="Mở quà để nhận vinh danh & phần thưởng tuần.">
 <meta property="og:image" content="assets/og-image.jpg">
-<meta name="theme-color" content="#1a1140">
+<meta name="theme-color" content="#1e0710">
 <!-- Confetti qua CDN (theo gợi ý). Nếu chặn CDN, trang vẫn chạy — chỉ thiếu confetti. -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <style>
   :root{
-    --bg1:#1a1140; --bg2:#3b1361; --bg3:#0c0a24;
-    --gold:#ffcf4d; --gold2:#f5a623; --muted:#c9c0e8; --line:rgba(255,255,255,.14);
+    /* Roborock brand red #EA0A2A */
+    --brand:#EA0A2A; --brand2:#ff2e4d; --brandlt:#ff6b82;
+    --bg1:#1e0710; --bg2:#4a0b1c; --bg3:#080306;
+    --gold:#ffcf4d; --gold2:#f5a623; --muted:#e9c2c9; --line:rgba(255,255,255,.15);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
@@ -21,16 +23,21 @@
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     color:#fff;min-height:100dvh;overflow-x:hidden;
     background:
-      radial-gradient(900px 600px at 50% -8%, var(--bg2), transparent 60%),
-      radial-gradient(600px 500px at 15% 100%, rgba(255,77,109,.18), transparent 55%),
+      radial-gradient(900px 620px at 50% -8%, var(--bg2), transparent 60%),
+      radial-gradient(620px 520px at 15% 100%, rgba(234,10,42,.28), transparent 55%),
       linear-gradient(160deg,var(--bg1),var(--bg3));
   }
   .wrap{width:100%;max-width:400px;margin:0 auto;min-height:100dvh;
     padding:24px 18px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+  .brand{margin-bottom:14px}
+  .brand-logo{height:34px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
+  .brand.nologo .brand-logo{display:none}
+  .brand.nologo::after{content:"roborock";font-size:23px;font-weight:800;letter-spacing:.5px;
+    color:#fff}
   .hidden{display:none!important}
   .fade{animation:pop .5s ease both}
   @keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
-  .eyebrow{font-size:11.5px;letter-spacing:2px;font-weight:800;color:var(--gold);text-transform:uppercase}
+  .eyebrow{font-size:11.5px;letter-spacing:2px;font-weight:800;color:var(--brandlt);text-transform:uppercase}
   .muted{color:var(--muted)}
   .gift{font-size:118px;line-height:1;margin:16px 0;display:inline-block;
     filter:drop-shadow(0 14px 30px rgba(0,0,0,.5));animation:shake 1.7s ease-in-out infinite}
@@ -41,38 +48,38 @@
   .field{width:100%;margin-top:16px;padding:15px 16px;border-radius:14px;
     border:1px solid var(--line);background:rgba(255,255,255,.09);color:#fff;
     font-size:16px;font-weight:600;text-align:center;outline:none}
-  .field:focus{border-color:var(--gold);background:rgba(255,255,255,.13)}
+  .field:focus{border-color:var(--brand);background:rgba(255,255,255,.13)}
   .field::placeholder{color:rgba(255,255,255,.42);font-weight:500}
   .err{color:#ff9db0;font-size:12.5px;margin-top:10px;min-height:16px}
   .btn{display:inline-block;border:none;cursor:pointer;font-weight:800;border-radius:999px;
-    padding:16px 32px;font-size:17px;margin-top:20px;color:#241a05;text-decoration:none;
-    background:linear-gradient(180deg,var(--gold),var(--gold2));
-    box-shadow:0 10px 26px rgba(245,166,35,.45);transition:transform .12s;min-height:52px}
+    padding:16px 32px;font-size:17px;margin-top:20px;color:#fff;text-decoration:none;
+    background:linear-gradient(180deg,var(--brand2),var(--brand));
+    box-shadow:0 10px 26px rgba(234,10,42,.5);transition:transform .12s;min-height:52px}
   .btn:active{transform:scale(.96)}
   .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);box-shadow:none;
     font-size:14px;padding:12px 22px}
   .sub{font-size:12.5px;margin-top:16px;line-height:1.55}
 
-  .cert{background:linear-gradient(180deg,#221a4d,#1a1440);border:1px solid var(--line);
+  .cert{background:linear-gradient(180deg,#2a0b15,#180610);border:1px solid var(--line);
     border-radius:22px;padding:26px 22px 22px;box-shadow:0 24px 60px rgba(0,0,0,.5);position:relative;overflow:hidden}
   .cert::before{content:"";position:absolute;inset:0;border-radius:22px;padding:1.5px;
-    background:linear-gradient(135deg,var(--gold),transparent 40%,transparent 60%,var(--gold));
+    background:linear-gradient(135deg,var(--brand),transparent 40%,transparent 60%,var(--brand));
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
   .medal{font-size:66px;line-height:1;filter:drop-shadow(0 8px 18px rgba(0,0,0,.5));
     animation:float 1.9s ease-in-out infinite}
   @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-9px) scale(1.04)}}
-  .congrats{font-size:13px;letter-spacing:3px;font-weight:800;color:var(--gold);text-transform:uppercase;margin-top:4px}
+  .congrats{font-size:13px;letter-spacing:3px;font-weight:800;color:var(--brandlt);text-transform:uppercase;margin-top:4px}
   .win-name{font-size:29px;font-weight:800;margin:6px 0 2px;word-break:break-all}
   .rankline{font-size:14px;color:var(--muted)}
   .stats{display:flex;gap:10px;justify-content:center;margin:16px 0}
   .stat{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;padding:10px 14px;min-width:96px}
-  .stat .n{font-size:23px;font-weight:800;color:var(--gold)}
+  .stat .n{font-size:23px;font-weight:800;color:var(--brandlt)}
   .stat .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
   .criteria{font-size:11.5px;color:var(--muted);margin-top:2px}
-  .prize{margin-top:12px;background:linear-gradient(90deg,rgba(255,207,77,.16),rgba(245,166,35,.16));
-    border:1px solid rgba(255,207,77,.35);border-radius:14px;padding:13px}
-  .prize .pl{font-size:11px;letter-spacing:1px;color:var(--gold);font-weight:800;text-transform:uppercase}
+  .prize{margin-top:12px;background:linear-gradient(90deg,rgba(234,10,42,.20),rgba(234,10,42,.10));
+    border:1px solid rgba(234,10,42,.5);border-radius:14px;padding:13px}
+  .prize .pl{font-size:11px;letter-spacing:1px;color:var(--brandlt);font-weight:800;text-transform:uppercase}
   .prize .pv{font-size:21px;font-weight:800;margin-top:2px}
   .week{font-size:12px;color:var(--muted);margin-top:12px}
   .actions{display:flex;gap:10px;margin-top:16px}
@@ -87,6 +94,11 @@
 <button class="mute" id="mute" title="Bật/tắt âm thanh">🔊</button>
 
 <div class="wrap">
+  <!-- LOGO ROBOROCK (thay bằng ảnh thật: bỏ file assets/roborock-logo.png) -->
+  <div class="brand" id="brandBox">
+    <img class="brand-logo" src="assets/roborock-logo.png" alt="roborock"
+         onerror="document.getElementById('brandBox').classList.add('nologo')">
+  </div>
   <!-- ENTRY -->
   <section class="fade" id="entry">
     <div class="eyebrow">Chương trình TikTok · Qrevo 2 Pro</div>
@@ -179,8 +191,8 @@ function fireConfetti(){
   if(typeof confetti !== "function"){ return; }
   const end = Date.now() + 3000;
   (function frame(){
-    confetti({particleCount:7,angle:60,spread:60,origin:{x:0},colors:["#ffcf4d","#f5a623","#ff5d8f","#7c5cff","#4dd2ff"]});
-    confetti({particleCount:7,angle:120,spread:60,origin:{x:1},colors:["#ffcf4d","#f5a623","#ff5d8f","#7c5cff","#4dd2ff"]});
+    confetti({particleCount:7,angle:60,spread:60,origin:{x:0},colors:["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"]});
+    confetti({particleCount:7,angle:120,spread:60,origin:{x:1},colors:["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"]});
     if(Date.now()<end) requestAnimationFrame(frame);
   })();
   confetti({particleCount:150,spread:100,startVelocity:45,origin:{y:.35}});
@@ -208,22 +220,22 @@ function playSfx(){ if(muted) return; try{ sfx.currentTime=0; sfx.play().catch((
 function downloadCert(){
   const w=CURRENT; const c=document.createElement("canvas"); c.width=1080; c.height=1350;
   const x=c.getContext("2d");
-  const g=x.createLinearGradient(0,0,0,1350); g.addColorStop(0,"#3b1361"); g.addColorStop(1,"#0c0a24");
+  const g=x.createLinearGradient(0,0,0,1350); g.addColorStop(0,"#4a0b1c"); g.addColorStop(1,"#080306");
   x.fillStyle=g; x.fillRect(0,0,1080,1350);
-  x.strokeStyle="#ffcf4d"; x.lineWidth=6; x.strokeRect(40,40,1000,1270);
+  x.strokeStyle="#EA0A2A"; x.lineWidth=6; x.strokeRect(40,40,1000,1270);
   x.textAlign="center";
-  x.fillStyle="#ffcf4d"; x.font="700 32px Arial"; x.fillText("CHƯƠNG TRÌNH TIKTOK · QREVO 2 PRO",540,165);
+  x.fillStyle="#ff6b82"; x.font="700 32px Arial"; x.fillText("roborock · CHƯƠNG TRÌNH TIKTOK QREVO 2 PRO",540,165);
   x.font="120px Arial"; x.fillText(MEDAL_EMOJI[w.medal]||"🏆",540,360);
-  x.fillStyle="#ffcf4d"; x.font="800 40px Arial"; x.fillText("XIN CHÚC MỪNG",540,470);
+  x.fillStyle="#ff6b82"; x.font="800 40px Arial"; x.fillText("XIN CHÚC MỪNG",540,470);
   x.fillStyle="#fff"; x.font="800 74px Arial"; x.fillText("@"+w.handle,540,568);
-  x.fillStyle="#c9c0e8"; x.font="600 38px Arial";
+  x.fillStyle="#e9c2c9"; x.font="600 38px Arial";
   x.fillText(w.rank<=3?`Đại lý đạt giải — Top ${w.rank}`:"Đại lý đạt giải",540,648);
   x.fillStyle="#fff"; x.font="800 58px Arial"; x.fillText(w.videos+" video Qrevo 2 Pro",540,780);
-  x.fillStyle="rgba(255,207,77,.15)"; roundRect(x,190,860,700,150,20); x.fill();
-  x.strokeStyle="rgba(255,207,77,.5)"; x.lineWidth=3; roundRect(x,190,860,700,150,20); x.stroke();
-  x.fillStyle="#ffcf4d"; x.font="700 30px Arial"; x.fillText("🎁 PHẦN THƯỞNG",540,915);
+  x.fillStyle="rgba(234,10,42,.20)"; roundRect(x,190,860,700,150,20); x.fill();
+  x.strokeStyle="rgba(234,10,42,.6)"; x.lineWidth=3; roundRect(x,190,860,700,150,20); x.stroke();
+  x.fillStyle="#ff6b82"; x.font="700 30px Arial"; x.fillText("🎁 PHẦN THƯỞNG",540,915);
   x.fillStyle="#fff"; x.font="800 50px Arial"; x.fillText(w.prize||"Vinh danh",540,980);
-  x.fillStyle="#c9c0e8"; x.font="500 32px Arial"; x.fillText(`${w.week} · ${w.range}`,540,1100);
+  x.fillStyle="#e9c2c9"; x.font="500 32px Arial"; x.fillText(`${w.week} · ${w.range}`,540,1100);
   x.fillStyle="rgba(255,255,255,.5)"; x.font="500 26px Arial"; x.fillText("Dealer Program · Qrevo 2 Pro",540,1250);
   const a=document.createElement("a"); a.download=`bang-khen-${w.handle}.png`; a.href=c.toDataURL("image/png"); a.click();
 }
