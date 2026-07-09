@@ -285,7 +285,29 @@ function downloadCert(){
   x.fillStyle="#fff"; x.font="800 50px Arial"; x.fillText(w.prize||"Vinh danh",540,980);
   x.fillStyle="#e9c2c9"; x.font="500 32px Arial"; x.fillText(`${w.week} · ${w.range}`,540,1100);
   x.fillStyle="rgba(255,255,255,.5)"; x.font="500 26px Arial"; x.fillText("Dealer Program · Qrevo 2 Pro",540,1250);
-  const a=document.createElement("a"); a.download=`bang-khen-${w.handle}.png`; a.href=c.toDataURL("image/png"); a.click();
+
+  const name = `bang-khen-${w.handle}.png`;
+  c.toBlob(async (blob)=>{
+    if(!blob){  // trình duyệt quá cũ -> tải bằng dataURL
+      const a=document.createElement("a"); a.download=name; a.href=c.toDataURL("image/png"); a.click(); return;
+    }
+    const file = new File([blob], name, {type:"image/png"});
+    // 1) ĐIỆN THOẠI: mở bảng chia sẻ -> "Lưu ảnh" vào Ảnh, hoặc gửi thẳng Zalo/Messenger
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      try{
+        await navigator.share({files:[file], title:"Bằng khen Qrevo 2 Pro",
+          text:"Mình vừa được vinh danh Đại lý xuất sắc chương trình TikTok Qrevo 2 Pro! 🏆"});
+        return;
+      }catch(e){ if(e && e.name==="AbortError") return; }  // người dùng bấm huỷ
+    }
+    // 2) MÁY TÍNH / Android: tải file trực tiếp
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href=url; a.download=name;
+    document.body.appendChild(a); a.click(); a.remove();
+    // 3) Dự phòng iOS Safari cũ (không lưu được): mở ảnh để nhấn giữ -> Lưu ảnh
+    setTimeout(()=>{ try{ if(!navigator.canShare) window.open(url, "_blank"); }catch(e){} }, 300);
+    setTimeout(()=>URL.revokeObjectURL(url), 12000);
+  }, "image/png");
 }
 function roundRect(x,X,Y,w,h,r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r);
   x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
