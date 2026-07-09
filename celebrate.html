@@ -174,7 +174,10 @@ const dealer = (params.get("dealer") || "").trim().replace(/^@/,"").toLowerCase(
 let CURRENT = null;
 
 const $ = id => document.getElementById(id);
-function show(id){ ["entry","winnerView","notFoundView"].forEach(s=>$(s).classList.toggle("hidden", s!==id)); }
+function show(id){
+  ["entry","winnerView","notFoundView"].forEach(s=>$(s).classList.toggle("hidden", s!==id));
+  if(id !== "winnerView" && typeof stopConfetti === "function") stopConfetti();
+}
 
 async function loadWinners(){
   try{
@@ -191,15 +194,33 @@ function flatten(j){ const out=[]; (j.weeks||[]).forEach(w=>(w.dealers||[]).forE
   out.push({week:w.week,range:w.range,criteria:w.criteria,handle:d.handle||d[0],
     videos:d.videos||d[1],rank:i+1,medal:["gold","silver","bronze"][i]||"",prize:j.prize||""}))); return out; }
 
+const FX_COLORS = ["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"];
+let fxTimer = null, fxRaf = null;
+
+// Pháo hoa BẮN LIÊN TỤC cho tới khi rời màn winner (hoặc gọi stopConfetti).
 function fireConfetti(){
   if(typeof confetti !== "function"){ return; }
-  const end = Date.now() + 3000;
-  (function frame(){
-    confetti({particleCount:7,angle:60,spread:60,origin:{x:0},colors:["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"]});
-    confetti({particleCount:7,angle:120,spread:60,origin:{x:1},colors:["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"]});
-    if(Date.now()<end) requestAnimationFrame(frame);
+  stopConfetti();
+  // loạt mở màn hoành tráng
+  confetti({particleCount:160,spread:110,startVelocity:48,origin:{y:.35},colors:FX_COLORS});
+
+  // 2 vòi 2 bên bắn đều tay, không ngừng
+  (function stream(){
+    confetti({particleCount:6,angle:60,spread:62,origin:{x:0},colors:FX_COLORS});
+    confetti({particleCount:6,angle:120,spread:62,origin:{x:1},colors:FX_COLORS});
+    fxRaf = requestAnimationFrame(stream);
   })();
-  confetti({particleCount:150,spread:100,startVelocity:45,origin:{y:.35}});
+
+  // cứ ~0.7s nổ 1 quả pháo hoa ở vị trí ngẫu nhiên
+  fxTimer = setInterval(()=>{
+    confetti({particleCount:50,spread:360,startVelocity:32,ticks:90,
+      origin:{x:Math.random(), y:Math.random()*0.55}, colors:FX_COLORS});
+  }, 700);
+}
+
+function stopConfetti(){
+  if(fxTimer){ clearInterval(fxTimer); fxTimer = null; }
+  if(fxRaf){ cancelAnimationFrame(fxRaf); fxRaf = null; }
 }
 
 function showWinner(w){
