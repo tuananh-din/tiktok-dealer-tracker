@@ -38,6 +38,12 @@
     89%{transform:rotate(-7deg) scale(1.04)}93%{transform:rotate(7deg) scale(1.06)}96%{transform:rotate(-4deg)}}
   .hello{font-size:16px;margin:2px 0}
   .who-b{font-size:22px;font-weight:800;word-break:break-all}
+  .field{width:100%;margin-top:16px;padding:15px 16px;border-radius:14px;
+    border:1px solid var(--line);background:rgba(255,255,255,.09);color:#fff;
+    font-size:16px;font-weight:600;text-align:center;outline:none}
+  .field:focus{border-color:var(--gold);background:rgba(255,255,255,.13)}
+  .field::placeholder{color:rgba(255,255,255,.42);font-weight:500}
+  .err{color:#ff9db0;font-size:12.5px;margin-top:10px;min-height:16px}
   .btn{display:inline-block;border:none;cursor:pointer;font-weight:800;border-radius:999px;
     padding:16px 32px;font-size:17px;margin-top:20px;color:#241a05;text-decoration:none;
     background:linear-gradient(180deg,var(--gold),var(--gold2));
@@ -85,10 +91,14 @@
   <section class="fade" id="entry">
     <div class="eyebrow">Chương trình TikTok · Qrevo 2 Pro</div>
     <div class="gift" id="giftEmoji">🎁</div>
-    <div class="hello muted">Bạn có một phần quà vinh danh</div>
-    <div class="who-b" id="entryWho">&nbsp;</div>
-    <div><button class="btn" id="openButton">🎉 Mở quà</button></div>
-    <div class="sub muted">Dành cho các đại lý TikTok xuất sắc đạt giải tuần này.</div>
+    <div class="hello muted">Nhập tên kênh TikTok của bạn để nhận vinh danh</div>
+    <div id="inputRow"><input id="handleInput" class="field" type="text"
+      placeholder="@tên_kênh hoặc link TikTok" autocomplete="off"
+      autocapitalize="off" spellcheck="false"></div>
+    <div class="who-b" id="entryWho"></div>
+    <div class="err" id="entryErr"></div>
+    <div><button class="btn" id="openButton">🎉 Mở quà vinh danh</button></div>
+    <div class="sub muted">Nhập đúng username kênh TikTok bạn dùng đăng video Qrevo 2 Pro.</div>
   </section>
 
   <!-- WINNER -->
@@ -220,13 +230,30 @@ function downloadCert(){
 function roundRect(x,X,Y,w,h,r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r);
   x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
 
+// ---- chuẩn hoá tên nhập: chấp nhận @handle, handle, hoặc dán cả link TikTok ----
+function normHandle(raw){
+  let s = (raw || "").trim();
+  if(!s) return "";
+  const m = s.match(/tiktok\.com\/@([A-Za-z0-9._-]+)/i);   // dán link kênh
+  if(m) return m[1].toLowerCase();
+  return s.replace(/^@/,"").split(/[/?\s]/)[0].toLowerCase();
+}
+
 // ---- sự kiện ----
 $("openButton").onclick = async ()=>{
+  const raw = dealer || ($("handleInput") ? $("handleInput").value : "");
+  const h = normHandle(raw);
+  if(!h){ $("entryErr").textContent = "Nhập tên kênh TikTok của bạn nhé."; return; }
+  $("entryErr").textContent = "";
   const winners = await loadWinners();
-  const w = winners.find(it => (it.handle||"").toLowerCase().replace(/^@/,"") === dealer);
-  if(dealer && w) showWinner(w);
-  else { $("nfWho").textContent = dealer ? "@"+dealer : "Chưa đạt giải tuần này"; show("notFoundView"); }
+  const w = winners.find(it => (it.handle||"").toLowerCase().replace(/^@/,"") === h);
+  if(w) showWinner(w);
+  else { $("nfWho").textContent = "@" + h; show("notFoundView"); }
 };
+// Enter trong ô input = bấm Mở quà
+const hi = $("handleInput");
+if(hi) hi.addEventListener("keydown", e=>{ if(e.key === "Enter") $("openButton").click(); });
+
 $("replayButton").onclick = ()=>{ fireConfetti(); playSfx(); };
 $("dlButton").onclick = downloadCert;
 $("copyButton").onclick = async ()=>{
@@ -234,8 +261,13 @@ $("copyButton").onclick = async ()=>{
   catch(e){ alert(location.href); }
 };
 
-// hiện handle ở màn entry nếu link đã có ?dealer=
-if(dealer) $("entryWho").textContent = "@" + dealer;
+// Nếu link có sẵn ?dealer= -> ẩn ô nhập, hiện handle luôn (link cá nhân hoá vẫn chạy).
+if(dealer){
+  if($("inputRow")) $("inputRow").style.display = "none";
+  $("entryWho").textContent = "@" + dealer;
+} else if(hi){
+  setTimeout(()=>hi.focus(), 300);
+}
 show("entry");
 </script>
 </body>
