@@ -197,37 +197,41 @@ function flatten(j){ const out=[]; (j.weeks||[]).forEach(w=>(w.dealers||[]).forE
     videos:d.videos||d[1],rank:i+1,medal:["gold","silver","bronze"][i]||"",prize:j.prize||""}))); return out; }
 
 const FX_COLORS = ["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"];
-let fxTimer = null, fxRaf = null;
+let fxTimer = null, fxWave = null, fxOn = false;
 
-// Pháo hoa BẮN LIÊN TỤC cho tới khi rời màn winner (hoặc gọi stopConfetti).
+// 1 quả pháo hoa nổ Ở NỬA TRÊN màn hình rồi rơi xuống.
+function topBurst(){
+  confetti({particleCount:75, spread:360, startVelocity:34, ticks:120, gravity:1.1,
+    origin:{ x: 0.1 + Math.random()*0.8, y: 0.04 + Math.random()*0.30 }, colors:FX_COLORS});
+}
+
+// Nổ THEO ĐỢT: 5–10 quả ở phía trên, rồi NGHỈ 5–8s cho rơi hết, xong nổ tiếp.
+// Nhờ vậy phía dưới (thẻ + nút bấm) luôn thoáng, dễ nhìn & bấm.
+function wave(){
+  if(!fxOn) return;
+  let shots = 0;
+  const per = 5 + Math.floor(Math.random()*6);   // 5–10 quả mỗi đợt
+  fxTimer = setInterval(()=>{
+    topBurst();
+    if(++shots >= per){
+      clearInterval(fxTimer); fxTimer = null;
+      fxWave = setTimeout(wave, 5000 + Math.random()*3000);  // nghỉ 5–8s
+    }
+  }, 300);
+}
+
 function fireConfetti(){
   if(typeof confetti !== "function"){ return; }
   stopConfetti();
-  // loạt mở màn hoành tráng
-  confetti({particleCount:260,spread:140,startVelocity:52,origin:{y:.4},colors:FX_COLORS});
-
-  // NHIỀU vòi bắn liên tục — 2 bên + giữa, dày đặc ngập trời
-  (function stream(){
-    confetti({particleCount:12,angle:60, spread:80,origin:{x:0,  y:1},colors:FX_COLORS});
-    confetti({particleCount:12,angle:120,spread:80,origin:{x:1,  y:1},colors:FX_COLORS});
-    confetti({particleCount:8, angle:75, spread:90,origin:{x:0.3,y:1},colors:FX_COLORS});
-    confetti({particleCount:8, angle:105,spread:90,origin:{x:0.7,y:1},colors:FX_COLORS});
-    confetti({particleCount:8, angle:90, spread:120,origin:{x:0.5,y:1},colors:FX_COLORS});
-    fxRaf = requestAnimationFrame(stream);
-  })();
-
-  // nổ pháo hoa dồn dập khắp bầu trời (mỗi ~0.35s, 3 quả)
-  fxTimer = setInterval(()=>{
-    for(let k=0;k<3;k++){
-      confetti({particleCount:80,spread:360,startVelocity:38,ticks:110,
-        origin:{x:Math.random(), y:Math.random()*0.65}, colors:FX_COLORS});
-    }
-  }, 350);
+  fxOn = true;
+  confetti({particleCount:150, spread:120, startVelocity:45, origin:{y:.2}, colors:FX_COLORS}); // mở màn ở trên
+  wave();
 }
 
 function stopConfetti(){
+  fxOn = false;
   if(fxTimer){ clearInterval(fxTimer); fxTimer = null; }
-  if(fxRaf){ cancelAnimationFrame(fxRaf); fxRaf = null; }
+  if(fxWave){ clearTimeout(fxWave); fxWave = null; }
 }
 
 function showWinner(w){
