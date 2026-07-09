@@ -89,6 +89,15 @@
   .mute{position:fixed;top:14px;right:14px;background:rgba(255,255,255,.1);border:1px solid var(--line);
     color:#fff;border-radius:50%;width:40px;height:40px;font-size:16px;cursor:pointer}
   .foot{position:fixed;bottom:9px;left:0;right:0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.35)}
+  .imgmodal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.92);
+    display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+  .imgmodal-box{width:100%;max-width:380px;text-align:center}
+  #certImg{width:100%;height:auto;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.6);
+    -webkit-touch-callout:default}
+  .imgmodal-hint{color:#f0d0d6;font-size:13px;line-height:1.55;margin:14px 4px 8px}
+  .imgmodal-hint b{color:#fff}
+  .imgmodal-actions{display:flex;gap:10px;margin-top:6px}
+  .imgmodal-actions .btn{flex:1;margin-top:0;font-size:15px}
 </style>
 </head>
 <body>
@@ -151,6 +160,18 @@
   </section>
 </div>
 
+<!-- Xem/lưu ảnh bằng khen — chạy được mọi trình duyệt kể cả webview Zalo/FB -->
+<div class="imgmodal hidden" id="imgModal">
+  <div class="imgmodal-box">
+    <img id="certImg" alt="Bằng khen Qrevo 2 Pro">
+    <div class="imgmodal-hint" id="imgHint"></div>
+    <div class="imgmodal-actions">
+      <button class="btn" id="modalShare">📤 Chia sẻ / Lưu</button>
+      <button class="btn ghost" id="modalClose">Đóng</button>
+    </div>
+  </div>
+</div>
+
 <div class="foot">Qrevo 2 Pro · Dealer Celebration · dữ liệu từ hệ thống theo dõi TikTok</div>
 <audio id="sfx" preload="auto">
   <source src="assets/celebrate.m4a" type="audio/mp4">
@@ -171,6 +192,7 @@ const FALLBACK = [
 const MEDAL_EMOJI = {gold:"🥇",silver:"🥈",bronze:"🥉"};
 // Nạp sẵn logo Roborock để vẽ vào ảnh bằng khen khi tải về.
 const certLogo = new Image(); certLogo.src = "assets/roborock-logo.png";
+let certBlob = null;  // ảnh bằng khen để chia sẻ
 const params = new URLSearchParams(location.search);
 const dealer = (params.get("dealer") || "").trim().replace(/^@/,"").toLowerCase();
 let CURRENT = null;
@@ -286,28 +308,15 @@ function downloadCert(){
   x.fillStyle="#e9c2c9"; x.font="500 32px Arial"; x.fillText(`${w.week} · ${w.range}`,540,1100);
   x.fillStyle="rgba(255,255,255,.5)"; x.font="500 26px Arial"; x.fillText("Dealer Program · Qrevo 2 Pro",540,1250);
 
-  const name = `bang-khen-${w.handle}.png`;
-  c.toBlob(async (blob)=>{
-    if(!blob){  // trình duyệt quá cũ -> tải bằng dataURL
-      const a=document.createElement("a"); a.download=name; a.href=c.toDataURL("image/png"); a.click(); return;
-    }
-    const file = new File([blob], name, {type:"image/png"});
-    // 1) ĐIỆN THOẠI: mở bảng chia sẻ -> "Lưu ảnh" vào Ảnh, hoặc gửi thẳng Zalo/Messenger
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      try{
-        await navigator.share({files:[file], title:"Bằng khen Qrevo 2 Pro",
-          text:"Mình vừa được vinh danh Đại lý xuất sắc chương trình TikTok Qrevo 2 Pro! 🏆"});
-        return;
-      }catch(e){ if(e && e.name==="AbortError") return; }  // người dùng bấm huỷ
-    }
-    // 2) MÁY TÍNH / Android: tải file trực tiếp
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href=url; a.download=name;
-    document.body.appendChild(a); a.click(); a.remove();
-    // 3) Dự phòng iOS Safari cũ (không lưu được): mở ảnh để nhấn giữ -> Lưu ảnh
-    setTimeout(()=>{ try{ if(!navigator.canShare) window.open(url, "_blank"); }catch(e){} }, 300);
-    setTimeout(()=>URL.revokeObjectURL(url), 12000);
-  }, "image/png");
+  // Hiện ảnh full màn hình để LƯU BẰNG NHẤN GIỮ (chạy được cả webview Zalo/FB).
+  const dataUrl = c.toDataURL("image/png");
+  $("certImg").src = dataUrl;
+  try{ c.toBlob(b=>{ certBlob = b; }, "image/png"); }catch(e){ certBlob = null; }
+  const inApp = /Zalo|FBAN|FBAV|FB_IAB|Instagram|Line|Messenger/i.test(navigator.userAgent) || !navigator.share;
+  $("imgHint").innerHTML = inApp
+    ? '📌 <b>Nhấn giữ</b> vào ảnh → chọn <b>“Lưu ảnh / Add to Photos”</b>.<br>Không được thì bấm <b>⋯</b> góc phải trên (Zalo) → <b>“Mở trong Safari”</b> rồi lưu.'
+    : '📌 <b>Nhấn giữ</b> vào ảnh → <b>“Lưu ảnh”</b>, hoặc bấm <b>Chia sẻ / Lưu</b> bên dưới.';
+  $("imgModal").classList.remove("hidden");
 }
 function roundRect(x,X,Y,w,h,r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r);
   x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
@@ -341,6 +350,26 @@ $("dlButton").onclick = downloadCert;
 $("copyButton").onclick = async ()=>{
   try{ await navigator.clipboard.writeText(location.href); $("copyButton").textContent="✅ Đã copy"; }
   catch(e){ alert(location.href); }
+};
+$("modalClose").onclick = ()=> $("imgModal").classList.add("hidden");
+$("modalShare").onclick = async ()=>{
+  try{
+    if(certBlob && navigator.canShare){
+      const file = new File([certBlob], "bang-khen.png", {type:"image/png"});
+      if(navigator.canShare({files:[file]})){
+        await navigator.share({files:[file], title:"Bằng khen Qrevo 2 Pro",
+          text:"Mình vừa được vinh danh Đại lý xuất sắc TikTok Qrevo 2 Pro! 🏆"});
+        return;
+      }
+    }
+  }catch(e){ if(e && e.name==="AbortError") return; }
+  // fallback: tải file (máy tính) / mở ảnh
+  if(certBlob){
+    const url=URL.createObjectURL(certBlob);
+    const a=document.createElement("a"); a.href=url; a.download="bang-khen.png";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 10000);
+  }
 };
 
 // Nếu link có sẵn ?dealer= -> ẩn ô nhập, hiện handle luôn (link cá nhân hoá vẫn chạy).
