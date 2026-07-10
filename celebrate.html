@@ -236,6 +236,19 @@ function weekOf(h){
   const p = (PROGRESS && PROGRESS.dealers[h]) || {week_videos:0, total_videos:0};
   return p;
 }
+// Số ngày còn lại của tuần hiện tại (để đếm ngược).
+function daysLeft(prog){
+  if(!prog || !prog.end) return null;
+  const end = new Date(prog.end + "T23:59:59");
+  const diff = Math.ceil((end - new Date()) / 86400000);
+  return diff >= 0 ? diff : 0;
+}
+function countdownText(prog){
+  const d = daysLeft(prog);
+  if(d === null) return "";
+  return d <= 0 ? "⏳ Hôm nay là ngày cuối tuần này!"
+                : `⏳ Còn <b>${d} ngày</b> để đạt mốc tuần này.`;
+}
 
 async function loadWinners(){
   try{
@@ -314,11 +327,12 @@ function showWinner(w, wk, prog){
   const cur = wk ? wk.week_videos : 0;
   const need = Math.max(0, th - cur);
   const wl = (prog && prog.week) || "Tuần này";
-  $("winStrip").innerHTML = cur >= th
+  $("winStrip").innerHTML = (cur >= th
     ? `🔥 <b>${wl}</b>: bạn đã có <b>${cur} video</b> — đủ điều kiện nhận giải tiếp! Giữ phong độ nhé.`
     : (cur > 0
         ? `🔥 <b>${wl}</b>: bạn đã đăng <b>${cur} video</b>, cần thêm <b>${need}</b> nữa để nhận giải tuần này!`
-        : `🔥 <b>${wl}</b> đã bắt đầu — đăng video Qrevo 2 Pro ngay để tiếp tục nhận giải!`);
+        : `🔥 <b>${wl}</b> đã bắt đầu — đăng video Qrevo 2 Pro ngay để tiếp tục nhận giải!`))
+    + (countdownText(prog) ? "<br>" + countdownText(prog) : "");
   show("winnerView"); fireConfetti(); playSfx();
 }
 
@@ -348,6 +362,8 @@ function showProgress(h, wk, prog){
     $("pgMsg").innerHTML = `Tuần này bạn <b>chưa có video</b> Qrevo 2 Pro nào.<br>Đăng đủ <b>${th} video</b> trong tuần để nhận <b>${prize}</b>!`;
     $("pgSub").textContent = tot > 0 ? "Bạn từng đăng rất tốt — bứt phá lại tuần này nào! 🔥" : "Bắt đầu đăng video ngay để tham gia đua giải nhé!";
   }
+  const cd = countdownText(prog);
+  if(cd) $("pgSub").innerHTML = $("pgSub").textContent + "<br>" + cd;
   if(cur > 0 && typeof confetti === "function"){
     confetti({particleCount:70, spread:75, startVelocity:40, origin:{y:.32}, colors:FX_COLORS});
   }

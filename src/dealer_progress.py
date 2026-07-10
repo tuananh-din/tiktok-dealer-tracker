@@ -12,15 +12,16 @@ import csv
 import json
 from pathlib import Path
 
-from src.weekly_winners import CURRENT_WEEK
+from src.weekly_winners import get_current_week
 
 
 def _ymd(s: str) -> str:
     return (s or "").replace("-", "").strip()
 
 
-def build(csv_path):
-    lo, hi = _ymd(CURRENT_WEEK["start"]), _ymd(CURRENT_WEEK["end"])
+def build(csv_path, today=None):
+    wk = get_current_week(today)
+    lo, hi = _ymd(wk["start"]), _ymd(wk["end"])
     with open(csv_path, encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
     ch_col = up_col = None
@@ -42,10 +43,12 @@ def build(csv_path):
     dealers = {h: {"week_videos": week.get(h, 0), "total_videos": total[h]}
                for h in total}
     return {
-        "week": CURRENT_WEEK["label"],
-        "range": CURRENT_WEEK["range"],
-        "threshold": CURRENT_WEEK["threshold"],
-        "prize": CURRENT_WEEK["prize"],
+        "week": wk["label"],
+        "range": wk["range"],
+        "start": wk["start"],
+        "end": wk["end"],
+        "threshold": wk["threshold"],
+        "prize": wk["prize"],
         "dealers": dealers,
     }
 

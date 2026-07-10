@@ -173,6 +173,15 @@ def main() -> None:
     except Exception as e:  # noqa: BLE001 - non-critical
         log(f"  ! dealer progress export failed: {e}")
 
+    # Team-facing personalized celebration links (one per dealer) for Zalo blasts.
+    try:
+        from src import dealer_links
+        ln = dealer_links.write_csv(
+            config.CSV_FILE, config.OUTPUT_DIR / "dealer-links.csv")
+        log(f"Dealer links exported: {ln} links -> output/dealer-links.csv")
+    except Exception as e:  # noqa: BLE001 - non-critical
+        log(f"  ! dealer links export failed: {e}")
+
     # Always (re)build the public HTML report from the FULL current dataset so
     # the GitHub Pages page (index.html) reflects the latest numbers every run.
     # Wrapped so a report glitch never aborts the crawl/commit.

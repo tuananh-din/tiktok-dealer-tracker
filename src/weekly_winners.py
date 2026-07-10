@@ -6,20 +6,37 @@ crawls shift past-week counts. That is why winners are recorded here by hand
 (not recomputed each build). To add a new week, prepend a dict to WEEKLY_WINNERS
 with the frozen handle + video-count pairs, ordered best-first.
 """
+from datetime import date, timedelta
 
 # Reward shown on the celebration page for each winner.
 PRIZE = "500.000đ + Vinh danh"
+WEEK_THRESHOLD = 10                 # số video/tuần tối thiểu để đạt giải
 
-# Tuần ĐANG diễn ra — đại lý đang đua để đạt ngưỡng nhận giải. Cập nhật mỗi tuần
-# (đổi label/start/end/range). Trang celebrate dùng để hiện tiến độ + động viên.
-CURRENT_WEEK = {
-    "label": "Tuần 2",
-    "start": "2026-07-07",          # YYYY-MM-DD, tính cả 2 đầu
-    "end":   "2026-07-13",
-    "range": "07/07 – 13/07/2026",
-    "threshold": 10,                # số video tối thiểu để đạt giải
-    "prize": "500.000đ + Vinh danh",
-}
+# --- Tuần tự động ---
+# Lưới tuần 7 ngày, neo tại ngày bắt đầu Tuần 2. Từ đó tuần hiện tại tự tính theo
+# ngày chạy — team KHÔNG cần sửa tay mỗi tuần nữa.
+_WEEK_ANCHOR = date(2026, 7, 7)     # Thứ 2, bắt đầu "Tuần 2"
+_WEEK_ANCHOR_NUM = 2
+
+
+def get_current_week(today=None):
+    """Trả về dict tuần đang diễn ra {label,start,end,range,threshold,prize}."""
+    if today is None:
+        today = date.today()
+    elif isinstance(today, str):
+        y, m, d = (int(x) for x in today[:10].split("-"))
+        today = date(y, m, d)
+    idx = (today - _WEEK_ANCHOR).days // 7          # số tuần lệch so với neo
+    start = _WEEK_ANCHOR + timedelta(days=idx * 7)
+    end = start + timedelta(days=6)
+    return {
+        "label": f"Tuần {_WEEK_ANCHOR_NUM + idx}",
+        "start": start.isoformat(),
+        "end": end.isoformat(),
+        "range": f"{start:%d/%m} – {end:%d/%m/%Y}",
+        "threshold": WEEK_THRESHOLD,
+        "prize": PRIZE,
+    }
 
 WEEKLY_WINNERS = [
     {
