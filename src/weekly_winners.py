@@ -40,6 +40,23 @@ def get_current_week(today=None):
 
 WEEKLY_WINNERS = [
     {
+        "week": "Tuần 2",
+        "range": "07/07 – 13/07/2026",
+        "criteria": "≥ 10 video “qrevo 2 pro” trong tuần",
+        # (handle, số video trong tuần) — best first. Frozen snapshot.
+        # Đồng hạng ở mốc 10 video: xếp theo ai ĐẠT MỐC 10 SỚM HƠN
+        # (xiaomi.phu.tho đạt 10 sớm nhất — 11/07 → hạng 3, huy chương đồng).
+        # bothome_robotgialai hoàn thành muộn nhất → KHÔNG tính vào danh sách.
+        "dealers": [
+            ("phanthulan715", 21),
+            ("nc.nh.qu.robot", 16),
+            ("xiaomi.phu.tho", 10),
+            ("momimart.vn", 10),
+            ("thietbibepan", 10),
+            ("thurobot88", 10),
+        ],
+    },
+    {
         "week": "Tuần 1",
         "range": "29/06 – 06/07/2026",
         "criteria": "≥ 10 video “qrevo 2 pro” trong tuần",
