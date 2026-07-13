@@ -249,6 +249,13 @@ function countdownText(prog){
   return d <= 0 ? "⏳ Hôm nay là ngày cuối tuần này!"
                 : `⏳ Còn <b>${d} ngày</b> để đạt mốc tuần này.`;
 }
+// Tuần vừa khởi động (1–2 ngày đầu) → hối đại lý bắt tay làm ngay.
+function isFreshWeek(prog){
+  if(!prog || !prog.start) return false;
+  const start = new Date(prog.start + "T00:00:00");
+  const days = Math.floor((new Date() - start) / 86400000);
+  return days >= 0 && days <= 1;
+}
 
 async function loadWinners(){
   try{
@@ -331,7 +338,7 @@ function showWinner(w, wk, prog){
     ? `🔥 <b>${wl}</b>: bạn đã có <b>${cur} video</b> — đủ điều kiện nhận giải tiếp! Giữ phong độ nhé.`
     : (cur > 0
         ? `🔥 <b>${wl}</b>: bạn đã đăng <b>${cur} video</b>, cần thêm <b>${need}</b> nữa để nhận giải tuần này!`
-        : `🔥 <b>${wl}</b> đã bắt đầu — đăng video Qrevo 2 Pro ngay để tiếp tục nhận giải!`))
+        : `🚀 <b>${wl}</b>${isFreshWeek(prog) ? " vừa khởi động hôm nay" : " đã bắt đầu"} — đăng video Qrevo 2 Pro NGAY để tiếp tục giành giải!`))
     + (countdownText(prog) ? "<br>" + countdownText(prog) : "");
   show("winnerView"); fireConfetti(); playSfx();
 }
@@ -358,9 +365,15 @@ function showProgress(h, wk, prog){
     $("pgMsg").innerHTML = `Bạn đã đăng <b>${cur}/${th} video</b> Qrevo 2 Pro tuần này.<br>Chỉ cần <b>${need} video</b> nữa là nhận <b>${prize}</b>! 💪`;
     $("pgSub").textContent = "Cố lên, bạn sắp chạm mốc rồi!";
   } else {
-    $("pgIcon").textContent = "🌱";
-    $("pgMsg").innerHTML = `Tuần này bạn <b>chưa có video</b> Qrevo 2 Pro nào.<br>Đăng đủ <b>${th} video</b> trong tuần để nhận <b>${prize}</b>!`;
-    $("pgSub").textContent = tot > 0 ? "Bạn từng đăng rất tốt — bứt phá lại tuần này nào! 🔥" : "Bắt đầu đăng video ngay để tham gia đua giải nhé!";
+    const wl = (prog && prog.week) || "Tuần này";
+    const fresh = isFreshWeek(prog);
+    $("pgIcon").textContent = fresh ? "🚀" : "🌱";
+    $("pgMsg").innerHTML = fresh
+      ? `🚀 <b>${wl} vừa khởi động!</b><br>Đăng đủ <b>${th} video</b> Qrevo 2 Pro tuần này để giành <b>${prize}</b>.`
+      : `Tuần này bạn <b>chưa có video</b> Qrevo 2 Pro nào.<br>Đăng đủ <b>${th} video</b> trong tuần để nhận <b>${prize}</b>!`;
+    $("pgSub").textContent = fresh
+      ? "Bắt tay làm NGAY hôm nay — người đăng sớm luôn dẫn đầu bảng! 🔥"
+      : (tot > 0 ? "Bạn từng đăng rất tốt — bứt phá lại tuần này nào! 🔥" : "Bắt đầu đăng video ngay để tham gia đua giải nhé!");
   }
   const cd = countdownText(prog);
   if(cd) $("pgSub").innerHTML = $("pgSub").textContent + "<br>" + cd;

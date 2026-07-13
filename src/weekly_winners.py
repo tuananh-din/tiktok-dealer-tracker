@@ -13,10 +13,11 @@ PRIZE = "500.000đ + Vinh danh"
 WEEK_THRESHOLD = 10                 # số video/tuần tối thiểu để đạt giải
 
 # --- Tuần tự động ---
-# Lưới tuần 7 ngày, neo tại ngày bắt đầu Tuần 2. Từ đó tuần hiện tại tự tính theo
-# ngày chạy — team KHÔNG cần sửa tay mỗi tuần nữa.
-_WEEK_ANCHOR = date(2026, 7, 7)     # Thứ 2, bắt đầu "Tuần 2"
-_WEEK_ANCHOR_NUM = 2
+# Lưới tuần 7 ngày, neo tại ngày bắt đầu Tuần 3 (13/07 – Thứ 2). Từ đó tuần hiện
+# tại tự tính theo ngày chạy — team KHÔNG cần sửa tay mỗi tuần nữa.
+# (Tuần 2 là tuần ngắn 07/07–12/07, đã chốt cứng trong WEEKLY_WINNERS bên dưới.)
+_WEEK_ANCHOR = date(2026, 7, 13)    # Thứ 2, bắt đầu "Tuần 3"
+_WEEK_ANCHOR_NUM = 3
 
 
 def get_current_week(today=None):
@@ -41,7 +42,7 @@ def get_current_week(today=None):
 WEEKLY_WINNERS = [
     {
         "week": "Tuần 2",
-        "range": "07/07 – 13/07/2026",
+        "range": "07/07 – 12/07/2026",
         "criteria": "≥ 10 video “qrevo 2 pro” trong tuần",
         # (handle, số video trong tuần) — best first. Frozen snapshot.
         # Đồng hạng ở mốc 10 video: xếp theo ai ĐẠT MỐC 10 SỚM HƠN
