@@ -271,6 +271,15 @@ async function loadWinners(){
 function flatten(j){ const out=[]; (j.weeks||[]).forEach(w=>(w.dealers||[]).forEach((d,i)=>
   out.push({week:w.week,range:w.range,criteria:w.criteria,handle:d.handle||d[0],
     videos:d.videos||d[1],rank:i+1,medal:["gold","silver","bronze"][i]||"",prize:j.prize||""}))); return out; }
+// Nhãn tuần MỚI NHẤT trong danh sách winner (theo số "Tuần N" lớn nhất).
+function latestWeekLabel(winners){
+  let best=null, bestN=-Infinity;
+  for(const it of (winners||[])){
+    const n = parseInt(String(it.week||"").replace(/\D/g,"")) || 0;
+    if(n >= bestN){ bestN=n; best=it.week; }
+  }
+  return best;
+}
 
 const FX_COLORS = ["#EA0A2A","#ff2e4d","#ff6b82","#ffffff","#ffcf4d"];
 let fxTimer = null, fxWave = null, fxOn = false;
@@ -442,9 +451,13 @@ $("openButton").onclick = async ()=>{
   $("entryErr").textContent = "";
   const [winners, prog] = await Promise.all([loadWinners(), loadProgress()]);
   const wk = weekOf(h);
-  const w = winners.find(it => (it.handle||"").toLowerCase().replace(/^@/,"") === h);
-  if(w) showWinner(w, wk, prog);      // đạt giải: vinh danh + tiến độ tuần này
-  else  showProgress(h, wk, prog);    // chưa đạt: tiến độ + động viên push tiếp
+  // CHỈ vinh danh winner của TUẦN MỚI NHẤT (tuần vừa chốt). Winner tuần cũ hơn
+  // sẽ xem tiến độ tuần này như mọi người → luôn push theo tuần mới.
+  const latest = latestWeekLabel(winners);
+  const w = winners.find(it => it.week === latest
+    && (it.handle||"").toLowerCase().replace(/^@/,"") === h);
+  if(w) showWinner(w, wk, prog);      // đạt giải tuần mới nhất: vinh danh + tiến độ
+  else  showProgress(h, wk, prog);    // chưa đạt (tuần mới): tiến độ + động viên
 };
 $("pgBack").onclick = ()=>{ show("entry"); const el=$("handleInput"); if(el){ el.value=""; el.focus(); } };
 // Enter trong ô input = bấm Mở quà
