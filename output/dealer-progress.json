@@ -11,8 +11,8 @@
       "total_videos": 1
     },
     "thuyduonggiadung": {
-      "week_videos": 0,
-      "total_videos": 4
+      "week_videos": 1,
+      "total_videos": 5
     },
     "kimanh_1202": {
       "week_videos": 10,
@@ -27,16 +27,16 @@
       "total_videos": 14
     },
     ".hng0863": {
-      "week_videos": 7,
-      "total_videos": 22
+      "week_videos": 10,
+      "total_videos": 25
     },
     "roborockthanhhoa": {
       "week_videos": 0,
       "total_videos": 3
     },
     "thietbibepan": {
-      "week_videos": 3,
-      "total_videos": 24
+      "week_videos": 5,
+      "total_videos": 26
     },
     "tn.robot76": {
       "week_videos": 0,
@@ -67,8 +67,8 @@
       "total_videos": 13
     },
     "thurobot88": {
-      "week_videos": 12,
-      "total_videos": 35
+      "week_videos": 13,
+      "total_videos": 36
     },
     "hiephong.techhome": {
       "week_videos": 0,
@@ -79,12 +79,12 @@
       "total_videos": 6
     },
     "phanthulan715": {
-      "week_videos": 17,
-      "total_videos": 53
+      "week_videos": 20,
+      "total_videos": 56
     },
     "nc.nh.qu.robot": {
-      "week_videos": 2,
-      "total_videos": 22
+      "week_videos": 3,
+      "total_videos": 23
     },
     "3t.smart.robot.tn": {
       "week_videos": 4,
@@ -123,8 +123,8 @@
       "total_videos": 1
     },
     "robothutbuiductrong": {
-      "week_videos": 5,
-      "total_videos": 16
+      "week_videos": 6,
+      "total_videos": 17
     },
     "domotekvietnam": {
       "week_videos": 0,
@@ -147,8 +147,8 @@
       "total_videos": 2
     },
     "xiaomi.phu.tho": {
-      "week_videos": 9,
-      "total_videos": 21
+      "week_videos": 10,
+      "total_videos": 22
     },
     "nhadepbepxinh.camxuyen": {
       "week_videos": 1,
@@ -161,6 +161,10 @@
     "homebotvietnam": {
       "week_videos": 2,
       "total_videos": 3
+    },
+    "xiaomitiengiang.vn": {
+      "week_videos": 1,
+      "total_videos": 1
     }
   }
 }
