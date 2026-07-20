@@ -45,8 +45,9 @@ WEEKLY_WINNERS = [
         "range": "13/07 – 19/07/2026",
         "criteria": "≥ 10 video “qrevo 2 pro” trong tuần",
         # (handle, số video trong tuần) — best first. Frozen snapshot 20/07/2026.
-        # Đồng hạng ở mốc 10 video: xếp theo ai ĐẠT MỐC 10 SỚM HƠN
-        # (kimanh_1202 đạt 17/07 → trên xiaomi.phu.tho 18/07 → trên thietbibepan 19/07).
+        # Tối đa 6 đại lý. Đồng hạng ở mốc 10 video: xếp theo ai ĐẠT MỐC 10 SỚM HƠN
+        # (kimanh_1202 đạt 17/07 → trên xiaomi.phu.tho 18/07).
+        # thietbibepan cũng đủ 10 nhưng đạt mốc muộn nhất (19/07) → KHÔNG tính (chốt 6).
         "dealers": [
             ("phanthulan715", 22),
             ("momimart.vn", 14),
@@ -54,7 +55,6 @@ WEEKLY_WINNERS = [
             (".hng0863", 12),
             ("kimanh_1202", 10),
             ("xiaomi.phu.tho", 10),
-            ("thietbibepan", 10),
         ],
     },
     {
