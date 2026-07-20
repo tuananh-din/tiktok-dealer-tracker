@@ -1,8 +1,8 @@
 {
-  "week": "Tuần 3",
-  "range": "13/07 – 19/07/2026",
-  "start": "2026-07-13",
-  "end": "2026-07-19",
+  "week": "Tuần 4",
+  "range": "20/07 – 26/07/2026",
+  "start": "2026-07-20",
+  "end": "2026-07-26",
   "threshold": 10,
   "prize": "500.000đ + Vinh danh",
   "dealers": {
@@ -11,11 +11,11 @@
       "total_videos": 1
     },
     "thuyduonggiadung": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 5
     },
     "kimanh_1202": {
-      "week_videos": 10,
+      "week_videos": 0,
       "total_videos": 34
     },
     "tigerbot.smarthome": {
@@ -27,7 +27,7 @@
       "total_videos": 14
     },
     ".hng0863": {
-      "week_videos": 12,
+      "week_videos": 0,
       "total_videos": 27
     },
     "roborockthanhhoa": {
@@ -35,7 +35,7 @@
       "total_videos": 3
     },
     "thietbibepan": {
-      "week_videos": 10,
+      "week_videos": 0,
       "total_videos": 31
     },
     "tn.robot76": {
@@ -55,7 +55,7 @@
       "total_videos": 12
     },
     "longrobot_284": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 4
     },
     "roborock.krng.n": {
@@ -67,7 +67,7 @@
       "total_videos": 13
     },
     "thurobot88": {
-      "week_videos": 13,
+      "week_videos": 0,
       "total_videos": 36
     },
     "hiephong.techhome": {
@@ -79,15 +79,15 @@
       "total_videos": 6
     },
     "phanthulan715": {
-      "week_videos": 22,
+      "week_videos": 0,
       "total_videos": 58
     },
     "nc.nh.qu.robot": {
-      "week_videos": 3,
+      "week_videos": 0,
       "total_videos": 23
     },
     "3t.smart.robot.tn": {
-      "week_videos": 5,
+      "week_videos": 0,
       "total_videos": 11
     },
     "giangchismarthome": {
@@ -99,7 +99,7 @@
       "total_videos": 2
     },
     "momimart.vn": {
-      "week_videos": 14,
+      "week_videos": 0,
       "total_videos": 35
     },
     "anhlinhgroup_73": {
@@ -115,7 +115,7 @@
       "total_videos": 1
     },
     "bothome_robotgialai": {
-      "week_videos": 3,
+      "week_videos": 0,
       "total_videos": 14
     },
     "bepphuthai": {
@@ -123,7 +123,7 @@
       "total_videos": 1
     },
     "robothutbuiductrong": {
-      "week_videos": 6,
+      "week_videos": 0,
       "total_videos": 17
     },
     "domotekvietnam": {
@@ -131,7 +131,7 @@
       "total_videos": 4
     },
     "homesmediant99": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 5
     },
     "ecomi.vn.roborock": {
@@ -147,11 +147,11 @@
       "total_videos": 2
     },
     "xiaomi.phu.tho": {
-      "week_videos": 10,
+      "week_videos": 0,
       "total_videos": 22
     },
     "nhadepbepxinh.camxuyen": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 3
     },
     "hatechz": {
@@ -159,11 +159,11 @@
       "total_videos": 3
     },
     "homebotvietnam": {
-      "week_videos": 2,
+      "week_videos": 0,
       "total_videos": 3
     },
     "xiaomitiengiang.vn": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 1
     }
   }
