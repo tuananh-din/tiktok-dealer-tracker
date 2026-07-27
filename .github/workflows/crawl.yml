@@ -6,6 +6,9 @@ on:
     # 17:15 Asia/Saigon (UTC+7) == 10:15 UTC, every day.
     # Off the top-of-hour (:00) on purpose — GitHub heavily delays/drops :00 schedules.
     - cron: '15 10 * * *'
+    # Weekly backup run: if the daily schedule is delayed/dropped, Monday's
+    # second run still closes the completed week and publishes its winners.
+    - cron: '45 11 * * 1'
     # --- Near-realtime option: uncomment to also run every 30 minutes ---
     # (GitHub schedules can be delayed several minutes under load.)
     # - cron: '*/30 * * * *'
@@ -22,6 +25,7 @@ concurrency:
 jobs:
   crawl:
     runs-on: ubuntu-latest
+    timeout-minutes: 55
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,6 +59,10 @@ jobs:
       - name: Run crawler
         env:
           GSHEET_ID: ${{ secrets.GSHEET_ID }}
+          # Keep the daily job comfortably within its timeout. New videos are
+          # still collected in full; only the optional metric re-fetch window
+          # is shortened so it cannot delay weekly winner publication.
+          REFRESH_DAYS: "7"
         run: python crawl.py
 
       - name: Commit results back (only if Excel output is enabled)
@@ -68,6 +76,15 @@ jobs:
             echo "No local file changes to commit (Google Sheets output is live)."
           else
             git commit -m "update qrevo videos + report ($(date -u +'%Y-%m-%d %H:%M') UTC)"
-            git pull --rebase --autostash origin ${{ github.ref_name }} || true
-            git push
+            # Never silently ignore a rejected push: retry a safe rebase so
+            # the generated report is not left only on the runner.
+            for attempt in 1 2 3; do
+              if git pull --rebase --autostash origin "${{ github.ref_name }}" && git push; then
+                exit 0
+              fi
+              git rebase --abort 2>/dev/null || true
+              sleep $((attempt * 10))
+            done
+            echo "Could not publish generated files after 3 attempts."
+            exit 1
           fi

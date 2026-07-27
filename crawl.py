@@ -158,6 +158,10 @@ def main() -> None:
     # Export winners.json (frozen award list) so the public celebration page
     # (celebrate.html) can look up who won. Lives under output/ so CI commits it.
     try:
+        from src import weekly_winners
+        added_weeks = weekly_winners.freeze_completed_weeks(config.CSV_FILE)
+        if added_weeks:
+            log(f"Weekly winners frozen automatically: {', '.join(added_weeks)}")
         from src import winners_export
         w = winners_export.write_json(config.OUTPUT_DIR / "winners.json")
         log(f"Winners exported: {w} records -> output/winners.json")

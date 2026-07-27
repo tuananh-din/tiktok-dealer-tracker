@@ -2,12 +2,15 @@
 import json
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 _ROOT = Path(__file__).resolve().parent.parent
 
-# Prefer the venv yt-dlp locally; fall back to a PATH yt-dlp (e.g. in CI).
-_VENV_YTDLP = _ROOT / ".venv" / "bin" / "yt-dlp"
+# Prefer a compatible virtual-environment executable. Never invoke a Unix
+# executable from Windows: it fails before the crawler can collect any video.
+_VENV_YTDLP = _ROOT / ".venv" / (
+    "Scripts/yt-dlp.exe" if sys.platform == "win32" else "bin/yt-dlp")
 _YTDLP = str(_VENV_YTDLP) if _VENV_YTDLP.exists() else (shutil.which("yt-dlp") or "yt-dlp")
 
 # Optional Netscape-format cookies to avoid TikTok blocking datacenter IPs.

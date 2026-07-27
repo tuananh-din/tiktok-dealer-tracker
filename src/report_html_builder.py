@@ -248,14 +248,15 @@ def _top_videos(s):
 def _winners_section():
     """Frozen weekly award honor roll. Empty string if no weeks recorded."""
     try:
-        from src.weekly_winners import WEEKLY_WINNERS
+        from src.weekly_winners import get_weekly_winners
     except Exception:  # noqa: BLE001 - optional section
         return ""
-    if not WEEKLY_WINNERS:
+    weekly_winners = get_weekly_winners()
+    if not weekly_winners:
         return ""
     _medals = ["🥇", "🥈", "🥉"]
     blocks = []
-    for wk in WEEKLY_WINNERS:
+    for wk in weekly_winners:
         cards = []
         for i, (handle, cnt) in enumerate(wk["dealers"]):
             medal = _medals[i] if i < len(_medals) else "🏆"

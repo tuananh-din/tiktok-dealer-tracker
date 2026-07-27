@@ -16,7 +16,7 @@ GitHub Actions commits an up-to-date winners.json (it lives under output/).
 import json
 from pathlib import Path
 
-from src.weekly_winners import PRIZE, WEEKLY_WINNERS
+from src.weekly_winners import PRIZE, get_weekly_winners
 
 _MEDALS = {1: "gold", 2: "silver", 3: "bronze"}
 
@@ -24,7 +24,7 @@ _MEDALS = {1: "gold", 2: "silver", 3: "bronze"}
 def build_records() -> list:
     """Flatten WEEKLY_WINNERS into the celebrate.html record shape."""
     records = []
-    for wk in WEEKLY_WINNERS:
+    for wk in get_weekly_winners():
         for i, (handle, videos) in enumerate(wk["dealers"]):
             rank = i + 1
             records.append({
