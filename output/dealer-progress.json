@@ -1,8 +1,8 @@
 {
-  "week": "Tuần 4",
-  "range": "20/07 – 26/07/2026",
-  "start": "2026-07-20",
-  "end": "2026-07-26",
+  "week": "Tuần 5",
+  "range": "27/07 – 02/08/2026",
+  "start": "2026-07-27",
+  "end": "2026-08-02",
   "threshold": 10,
   "prize": "500.000đ + Vinh danh",
   "dealers": {
@@ -19,7 +19,7 @@
       "total_videos": 34
     },
     "tigerbot.smarthome": {
-      "week_videos": 2,
+      "week_videos": 0,
       "total_videos": 10
     },
     "minhchautestthat": {
@@ -27,7 +27,7 @@
       "total_videos": 14
     },
     ".hng0863": {
-      "week_videos": 11,
+      "week_videos": 0,
       "total_videos": 38
     },
     "roborockthanhhoa": {
@@ -55,7 +55,7 @@
       "total_videos": 12
     },
     "longrobot_284": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 5
     },
     "roborock.krng.n": {
@@ -79,7 +79,7 @@
       "total_videos": 6
     },
     "phanthulan715": {
-      "week_videos": 15,
+      "week_videos": 0,
       "total_videos": 73
     },
     "nc.nh.qu.robot": {
@@ -87,7 +87,7 @@
       "total_videos": 23
     },
     "3t.smart.robot.tn": {
-      "week_videos": 13,
+      "week_videos": 0,
       "total_videos": 24
     },
     "giangchismarthome": {
@@ -99,7 +99,7 @@
       "total_videos": 2
     },
     "momimart.vn": {
-      "week_videos": 2,
+      "week_videos": 0,
       "total_videos": 37
     },
     "anhlinhgroup_73": {
@@ -123,7 +123,7 @@
       "total_videos": 1
     },
     "robothutbuiductrong": {
-      "week_videos": 5,
+      "week_videos": 0,
       "total_videos": 23
     },
     "domotekvietnam": {
@@ -143,7 +143,7 @@
       "total_videos": 1
     },
     "mistorebienhoa": {
-      "week_videos": 6,
+      "week_videos": 0,
       "total_videos": 8
     },
     "xiaomi.phu.tho": {
@@ -159,7 +159,7 @@
       "total_videos": 3
     },
     "homebotvietnam": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 4
     },
     "xiaomitiengiang.vn": {
@@ -167,7 +167,7 @@
       "total_videos": 1
     },
     "hinhnendep7777": {
-      "week_videos": 2,
+      "week_videos": 0,
       "total_videos": 2
     }
   }

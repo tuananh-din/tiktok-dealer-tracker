@@ -41,6 +41,17 @@ def get_current_week(today=None):
 
 WEEKLY_WINNERS = [
     {
+        "week": "Tuần 4",
+        "range": "20/07 – 26/07/2026",
+        "criteria": "≥ 10 video “qrevo 2 pro” trong tuần",
+        # Frozen snapshot 27/07/2026 từ dataset đã đồng bộ trên GitHub.
+        "dealers": [
+            ("phanthulan715", 15),
+            ("3t.smart.robot.tn", 13),
+            (".hng0863", 11),
+        ],
+    },
+    {
         "week": "Tuần 3",
         "range": "13/07 – 19/07/2026",
         "criteria": "≥ 10 video “qrevo 2 pro” trong tuần",
