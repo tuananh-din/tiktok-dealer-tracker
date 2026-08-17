@@ -1,8 +1,8 @@
 {
-  "week": "Tuần 7",
-  "range": "10/08 – 16/08/2026",
-  "start": "2026-08-10",
-  "end": "2026-08-16",
+  "week": "Tuần 8",
+  "range": "17/08 – 23/08/2026",
+  "start": "2026-08-17",
+  "end": "2026-08-23",
   "threshold": 10,
   "prize": "500.000đ + Vinh danh",
   "dealers": {
@@ -11,7 +11,7 @@
       "total_videos": 1
     },
     "thuyduonggiadung": {
-      "week_videos": 6,
+      "week_videos": 0,
       "total_videos": 11
     },
     "kimanh_1202": {
@@ -43,7 +43,7 @@
       "total_videos": 4
     },
     "mi360vn": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 3
     },
     "caothienphat.official": {
@@ -55,11 +55,11 @@
       "total_videos": 12
     },
     "longrobot_284": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 6
     },
     "roborock.krng.n": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 7
     },
     "mivietnam_chuyengiarobot": {
@@ -75,7 +75,7 @@
       "total_videos": 1
     },
     "quyrobot": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 7
     },
     "phanthulan715": {
@@ -87,7 +87,7 @@
       "total_videos": 23
     },
     "3t.smart.robot.tn": {
-      "week_videos": 2,
+      "week_videos": 0,
       "total_videos": 37
     },
     "giangchismarthome": {
@@ -143,7 +143,7 @@
       "total_videos": 1
     },
     "mistorebienhoa": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 12
     },
     "xiaomi.phu.tho": {
@@ -155,11 +155,11 @@
       "total_videos": 3
     },
     "hatechz": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 6
     },
     "homebotvietnam": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 7
     },
     "xiaomitiengiang.vn": {
