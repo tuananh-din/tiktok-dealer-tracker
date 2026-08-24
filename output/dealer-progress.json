@@ -1,8 +1,8 @@
 {
-  "week": "Tuần 8",
-  "range": "17/08 – 23/08/2026",
-  "start": "2026-08-17",
-  "end": "2026-08-23",
+  "week": "Tuần 9",
+  "range": "24/08 – 30/08/2026",
+  "start": "2026-08-24",
+  "end": "2026-08-30",
   "threshold": 10,
   "prize": "500.000đ + Vinh danh",
   "dealers": {
@@ -11,7 +11,7 @@
       "total_videos": 1
     },
     "thuyduonggiadung": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 12
     },
     "kimanh_1202": {
@@ -63,7 +63,7 @@
       "total_videos": 7
     },
     "mivietnam_chuyengiarobot": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 14
     },
     "thurobot88": {
@@ -123,7 +123,7 @@
       "total_videos": 1
     },
     "robothutbuiductrong": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 31
     },
     "domotekvietnam": {
