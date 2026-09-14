@@ -1,8 +1,8 @@
 {
-  "week": "Tuần 11",
-  "range": "07/09 – 13/09/2026",
-  "start": "2026-09-07",
-  "end": "2026-09-13",
+  "week": "Tuần 12",
+  "range": "14/09 – 20/09/2026",
+  "start": "2026-09-14",
+  "end": "2026-09-20",
   "threshold": 10,
   "prize": "500.000đ + Vinh danh",
   "dealers": {
@@ -75,7 +75,7 @@
       "total_videos": 1
     },
     "quyrobot": {
-      "week_videos": 1,
+      "week_videos": 0,
       "total_videos": 8
     },
     "phanthulan715": {
